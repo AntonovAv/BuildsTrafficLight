@@ -1,0 +1,16 @@
+HTTP/1.1 200 OK
+Server: Apache-Coyote/1.1
+Set-Cookie: TCSESSIONID=5200FBE46A7C41364F3B0E873D1B2744; Path=/; HttpOnly
+Set-Cookie: RememberMe=""; Expires=Thu, 01-Jan-1970 00:00:10 GMT; Path=/; HttpOnly
+Pragma: no-cache
+Expires: Thu, 01 Jan 1970 00:00:00 GMT
+Cache-Control: no-cache
+Cache-Control: no-store
+Content-Type: application/json
+Transfer-Encoding: chunked
+Date: Fri, 21 Aug 2015 12:50:52 GMT
+
+2ab
+{"count":2,"href":"/guestAuth/app/rest/buildTypes/id:actiTIME_40_Pro/builds/?locator=count:2,running:any","nextHref":"/guestAuth/app/rest/buildTypes/id:actiTIME_40_Pro/builds/?locator=count:2,start:2,running:any","build":[{"id":3040,"buildTypeId":"actiTIME_40_Pro","number":"4_0_Pro_1227","status":"FAILURE","state":"finished","href":"/guestAuth/app/rest/builds/id:3040","webUrl":"http://rdbuild/viewLog.html?buildId=3040&buildTypeId=actiTIME_40_Pro"},{"id":3039,"buildTypeId":"actiTIME_40_Pro","number":"4_0_Pro_1226","status":"FAILURE","state":"finished","href":"/guestAuth/app/rest/builds/id:3039","webUrl":"http://rdbuild/viewLog.html?buildId=3039&buildTypeId=actiTIME_40_Pro"}]}
+0
+

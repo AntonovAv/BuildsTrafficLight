@@ -1,0 +1,3 @@
+/guestAuth/app/rest/buildTypes/
+/guestAuth/app/rest/buildTypes/id:actiTIME_40_Pro/builds/?locator=count:2,running:any
+
