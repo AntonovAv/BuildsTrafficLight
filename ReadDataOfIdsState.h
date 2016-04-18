@@ -22,8 +22,8 @@ public:
 
 	void process();
 private:
-	// return error code
-	byte handleID(String id, boolean needConnect);
+
+	byte handleIDStatus();
 
 	byte STATE_OF_BUILDS;
 };

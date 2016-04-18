@@ -10,6 +10,7 @@
 #endif
 		
 #include "SystemUtils.h"
+#include "WifiModuleUtils.h"
 #include "BasicLightStrategy.h"
 
 class SystemState { // basic class for system 

@@ -1,4 +1,4 @@
-// BuildServerErrorState.h
+// BuildServerCheckingState.h
 
 #ifndef _BUILDSERVERERRORSTATE_h
 #define _BUILDSERVERERRORSTATE_h
@@ -12,11 +12,11 @@
 #include "SystemState.h"
 #include "SystemUtils.h"
 
-class BuildServerErrorState : public SystemState {
+class BuildServerCheckingState : public SystemState {
 
 public:
-	BuildServerErrorState();
-	~BuildServerErrorState();
+	BuildServerCheckingState();
+	~BuildServerCheckingState();
 
 	void process();
 };

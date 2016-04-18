@@ -32,10 +32,10 @@
 #define TIME_OUT_ERROR 51
 #define CONNECTION_TIME_OUT 10000 // 10 sec
 
-#define WIFI_NAME /*internet*/Acti311
-#define WIFI_PASS /*654qwerty123*/Actimind79Password
-#define SERVER_IP /*192.168.0.100*/192.168.101.36
-#define PORT /*8080*/80
+#define WIFI_NAME internet///Acti311
+#define WIFI_PASS 654qwerty123//Actimind79Password
+#define SERVER_IP 192.168.0.2 //192.168.101.36
+#define PORT 8080//80
 
 #define BUILD_TYPES_URL "/guestAuth/app/rest/buildTypes/"
 #define BUILD_STATE_URL "id:#/builds/?locator=count:2,running:any"
@@ -49,7 +49,7 @@
 #define DUTY_RED 245
 #define DUTY_YELLOW 245
 #define DUTY_GREEN 231 
-#define COEFF_FOR_1SEC 10 // 10 times is 1 sec
+#define COEFF_FOR_1SEC 1000 // times is 1 sec
 
 #define MODULE_RESET_PIN 2
 

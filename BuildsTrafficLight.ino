@@ -1,3 +1,4 @@
+#include "WifiModuleUtils.h"
 #include "WiFiConnectionErrorLightStrategy.h"
 #include "BuildServerRequestErrorLightStrategy.h"
 #include "BuildsFailedAndRunningLightStrategy.h"
@@ -5,10 +6,10 @@
 #include "BuildServerErrorLightStrategy.h"
 #include "InitSystemLightStrategy.h"
 #include "BuildsSuccessLightStrategy.h"
-#include "BuildServerErrorState.h"
+#include "BuildServerCheckingState.h"
 #include "ReadDataOfIdsState.h"
 #include "ReadIdsState.h"
-#include "ConnectToWiFiState.h"
+#include "ReconnectToWiFiState.h"
 #include "SystemUtils.h"
 #include "BasicLightStrategy.h"
 #include "SystemState.h"
@@ -21,9 +22,6 @@
 #include <TimerOne.h>
 #include <eeprom.h>
 
-#define RED 11
-#define YELLOW 10
-#define GREEN 9
 
 #define RED_MASK 1
 #define RED_BLINK_MASK 2
@@ -34,31 +32,38 @@
 #define BLINK_MASK 42
 #define START_ADDRESS_OF_BUILD_IDS 199
 
-#define ESP_RESET 2
-
-LightTrafficSystem system = LightTrafficSystem(new ResetModuleState(), new InitSystemLightStrategy());
+LightTrafficSystem system = LightTrafficSystem(new ReadIdsState(), new InitSystemLightStrategy());
 
 void light() {
 	system.lighting();
-	system.checkAliveOfSystem();
+	//system.checkAliveOfSystem();
 }
 
 void setup() {
-  pinMode(ESP_RESET, OUTPUT);
-  Serial.begin(115200);
-  //while (!Serial) {}
-  Serial.println("Hello");
-  Serial1.begin(115200);
-  Timer1.initialize(1000000/COEFF_FOR_1SEC); // 1 sec/COEFF sec
-  
-  Timer1.pwm(RED_PIN, 0);
-  Timer1.pwm(YELLOW_PIN, 0);
-  Timer1.pwm(GREEN_PIN, 0);
-  
-  //Timer1.stop();
-  Timer1.attachInterrupt(light);
+	pinMode(MODULE_RESET_PIN, OUTPUT);
+	digitalWrite(MODULE_RESET_PIN, HIGH);
 
-  Serial.print(F("currentFreeMemory(before start): ")); Serial.println(SystemUtils.freeRam());
+	Serial.begin(115200);
+	//while (!Serial) {}
+	Serial.println("Hello");
+	Serial1.begin(115200);
+
+	Timer1.initialize(1000000 / COEFF_FOR_1SEC); // 1 sec/COEFF sec
+	Timer1.pwm(RED_PIN, 0);
+	Timer1.pwm(YELLOW_PIN, 0);
+	Timer1.pwm(GREEN_PIN, 0);
+	Timer1.attachInterrupt(light);
+
+	WifiUtils.softReset();
+
+	WifiUtils.connectToAP(F(xstr(WIFI_NAME)), F(xstr(WIFI_PASS)));
+
+	/*for (;;) {
+		if (Serial.available())  Serial1.write(Serial.read());
+		if (Serial1.available()) Serial.write(Serial1.read());
+	}*/
+
+	Serial.print(F("currentFreeMemory(before start): ")); Serial.println(SystemUtils.freeRam());
 }
 
 void loop() {

@@ -5,7 +5,7 @@
 #include "InitSystemLightStrategy.h"
 
 void InitSystemLightStrategy::lighting() {
-	if (innerCounter < countsFor1Sec) {
+	if (innerCounter < (countsFor1Sec/3)) {
 		innerCounter++;
 	}
 	else {

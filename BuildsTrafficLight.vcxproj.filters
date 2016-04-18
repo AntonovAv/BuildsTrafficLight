@@ -13,47 +13,26 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Header Files\lightingStrategies">
+      <UniqueIdentifier>{deb1dde5-fa1e-42fd-940d-3ff38fed971d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\utils">
+      <UniqueIdentifier>{b474f268-97f1-4726-83c6-d0db4c03b168}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\other">
+      <UniqueIdentifier>{70359862-ea63-46c4-b31b-cfc1bd5ec7ff}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\utils">
+      <UniqueIdentifier>{ac6c6836-150f-4d46-8fc7-cb478ad45236}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\lightingStrategies">
+      <UniqueIdentifier>{f3aad41e-a13d-4e09-86ad-6f6b9d1c3b9c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="BuildsTrafficLight.ino" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="__vm\.BuildsTrafficLight.vsarduino.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="BasicLightStrategy.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="BuildServerErrorLightStrategy.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="BuildServerErrorState.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="BuildServerRequestErrorLightStrategy.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="BuildsFailedAndRunningLightStrategy.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="BuildsFailedLightStrategy.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="BuildsSuccessLightStrategy.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="ConnectToWiFiState.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="DataReader.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="InitSystemLightStrategy.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="JSONDataParser.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="LightTrafficSystem.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -69,45 +48,54 @@
     <ClInclude Include="SystemState.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="SystemUtils.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="BuildServerErrorLightStrategy.h">
+      <Filter>Header Files\lightingStrategies</Filter>
+    </ClInclude>
+    <ClInclude Include="BuildServerRequestErrorLightStrategy.h">
+      <Filter>Header Files\lightingStrategies</Filter>
+    </ClInclude>
+    <ClInclude Include="BuildsFailedAndRunningLightStrategy.h">
+      <Filter>Header Files\lightingStrategies</Filter>
+    </ClInclude>
+    <ClInclude Include="BasicLightStrategy.h">
+      <Filter>Header Files\lightingStrategies</Filter>
+    </ClInclude>
+    <ClInclude Include="BuildsFailedLightStrategy.h">
+      <Filter>Header Files\lightingStrategies</Filter>
+    </ClInclude>
+    <ClInclude Include="BuildsSuccessLightStrategy.h">
+      <Filter>Header Files\lightingStrategies</Filter>
+    </ClInclude>
+    <ClInclude Include="InitSystemLightStrategy.h">
+      <Filter>Header Files\lightingStrategies</Filter>
     </ClInclude>
     <ClInclude Include="WiFiConnectionErrorLightStrategy.h">
+      <Filter>Header Files\lightingStrategies</Filter>
+    </ClInclude>
+    <ClInclude Include="DataReader.h">
+      <Filter>Header Files\utils</Filter>
+    </ClInclude>
+    <ClInclude Include="JSONDataParser.h">
+      <Filter>Header Files\utils</Filter>
+    </ClInclude>
+    <ClInclude Include="SystemUtils.h">
+      <Filter>Header Files\utils</Filter>
+    </ClInclude>
+    <ClInclude Include="__vm\.BuildsTrafficLight.vsarduino.h">
+      <Filter>Header Files\other</Filter>
+    </ClInclude>
+    <ClInclude Include="WifiModuleUtils.h">
+      <Filter>Header Files\utils</Filter>
+    </ClInclude>
+    <ClInclude Include="BuildServerCheckingState.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ReconnectToWiFiState.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="BasicLightStrategy.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="BuildServerErrorLightStrategy.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="BuildServerErrorState.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="BuildServerRequestErrorLightStrategy.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="BuildsFailedAndRunningLightStrategy.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="BuildsFailedLightStrategy.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="BuildsSuccessLightStrategy.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="ConnectToWiFiState.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="DataReader.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="InitSystemLightStrategy.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="JSONDataParser.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="LightTrafficSystem.cpp">
@@ -125,10 +113,43 @@
     <ClCompile Include="SystemState.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="DataReader.cpp">
+      <Filter>Source Files\utils</Filter>
+    </ClCompile>
     <ClCompile Include="SystemUtils.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\utils</Filter>
+    </ClCompile>
+    <ClCompile Include="JSONDataParser.cpp">
+      <Filter>Source Files\utils</Filter>
+    </ClCompile>
+    <ClCompile Include="BuildServerErrorLightStrategy.cpp">
+      <Filter>Source Files\lightingStrategies</Filter>
+    </ClCompile>
+    <ClCompile Include="BuildServerRequestErrorLightStrategy.cpp">
+      <Filter>Source Files\lightingStrategies</Filter>
+    </ClCompile>
+    <ClCompile Include="BuildsFailedAndRunningLightStrategy.cpp">
+      <Filter>Source Files\lightingStrategies</Filter>
+    </ClCompile>
+    <ClCompile Include="BuildsSuccessLightStrategy.cpp">
+      <Filter>Source Files\lightingStrategies</Filter>
+    </ClCompile>
+    <ClCompile Include="BuildsFailedLightStrategy.cpp">
+      <Filter>Source Files\lightingStrategies</Filter>
+    </ClCompile>
+    <ClCompile Include="InitSystemLightStrategy.cpp">
+      <Filter>Source Files\lightingStrategies</Filter>
     </ClCompile>
     <ClCompile Include="WiFiConnectionErrorLightStrategy.cpp">
+      <Filter>Source Files\lightingStrategies</Filter>
+    </ClCompile>
+    <ClCompile Include="WifiModuleUtils.cpp">
+      <Filter>Source Files\utils</Filter>
+    </ClCompile>
+    <ClCompile Include="BuildServerCheckingState.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ReconnectToWiFiState.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

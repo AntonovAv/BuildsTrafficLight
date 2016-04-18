@@ -18,51 +18,30 @@
 #define ARDUINO_ARCH_AVR
 #define USB_VID 0x2341
 #define USB_PID 0x8036
-#define __cplusplus
+#define __cplusplus 201103L
 #define __AVR__
 #define __inline__
 #define __asm__(x)
 #define __extension__
-//#define __ATTR_PURE__
-//#define __ATTR_CONST__
 #define __inline__
-//#define __asm__ 
 #define __volatile__
 #define GCC_VERSION 40801
 #define volatile(va_arg) 
 #define _CONST
-typedef void *__builtin_va_list;
 #define __builtin_va_start
 #define __builtin_va_end
-//#define __DOXYGEN__
 #define __attribute__(x)
 #define NOINLINE __attribute__((noinline))
 #define prog_void
 #define PGM_VOID_P int
 #ifndef __builtin_constant_p
-#define __builtin_constant_p __attribute__((__const__))
+	#define __builtin_constant_p __attribute__((__const__))
 #endif
 #ifndef __builtin_strlen
-#define __builtin_strlen  __attribute__((__const__))
+	#define __builtin_strlen  __attribute__((__const__))
 #endif
 #define NEW_H
-/*
-#ifndef __ATTR_CONST__
-#define __ATTR_CONST__ __attribute__((__const__))
-#endif
-
-#ifndef __ATTR_MALLOC__
-#define __ATTR_MALLOC__ __attribute__((__malloc__))
-#endif
-
-#ifndef __ATTR_NORETURN__
-#define __ATTR_NORETURN__ __attribute__((__noreturn__))
-#endif
-
-#ifndef __ATTR_PURE__
-#define __ATTR_PURE__ __attribute__((__pure__))
-#endif            
-*/
+typedef void *__builtin_va_list;
 typedef unsigned char byte;
 extern "C" void __cxa_pure_virtual() {;}
 
@@ -89,10 +68,10 @@ extern "C" void __cxa_pure_virtual() {;}
 #include <..\BuildsTrafficLight\BuildsTrafficLight.ino>
 #include <..\BuildsTrafficLight\BasicLightStrategy.cpp>
 #include <..\BuildsTrafficLight\BasicLightStrategy.h>
+#include <..\BuildsTrafficLight\BuildServerCheckingState.cpp>
+#include <..\BuildsTrafficLight\BuildServerCheckingState.h>
 #include <..\BuildsTrafficLight\BuildServerErrorLightStrategy.cpp>
 #include <..\BuildsTrafficLight\BuildServerErrorLightStrategy.h>
-#include <..\BuildsTrafficLight\BuildServerErrorState.cpp>
-#include <..\BuildsTrafficLight\BuildServerErrorState.h>
 #include <..\BuildsTrafficLight\BuildServerRequestErrorLightStrategy.cpp>
 #include <..\BuildsTrafficLight\BuildServerRequestErrorLightStrategy.h>
 #include <..\BuildsTrafficLight\BuildsFailedAndRunningLightStrategy.cpp>
@@ -101,8 +80,6 @@ extern "C" void __cxa_pure_virtual() {;}
 #include <..\BuildsTrafficLight\BuildsFailedLightStrategy.h>
 #include <..\BuildsTrafficLight\BuildsSuccessLightStrategy.cpp>
 #include <..\BuildsTrafficLight\BuildsSuccessLightStrategy.h>
-#include <..\BuildsTrafficLight\ConnectToWiFiState.cpp>
-#include <..\BuildsTrafficLight\ConnectToWiFiState.h>
 #include <..\BuildsTrafficLight\DataReader.cpp>
 #include <..\BuildsTrafficLight\DataReader.h>
 #include <..\BuildsTrafficLight\InitSystemLightStrategy.cpp>
@@ -115,6 +92,8 @@ extern "C" void __cxa_pure_virtual() {;}
 #include <..\BuildsTrafficLight\ReadDataOfIdsState.h>
 #include <..\BuildsTrafficLight\ReadIdsState.cpp>
 #include <..\BuildsTrafficLight\ReadIdsState.h>
+#include <..\BuildsTrafficLight\ReconnectToWiFiState.cpp>
+#include <..\BuildsTrafficLight\ReconnectToWiFiState.h>
 #include <..\BuildsTrafficLight\ResetModuleState.cpp>
 #include <..\BuildsTrafficLight\ResetModuleState.h>
 #include <..\BuildsTrafficLight\SystemState.cpp>
@@ -123,4 +102,6 @@ extern "C" void __cxa_pure_virtual() {;}
 #include <..\BuildsTrafficLight\SystemUtils.h>
 #include <..\BuildsTrafficLight\WiFiConnectionErrorLightStrategy.cpp>
 #include <..\BuildsTrafficLight\WiFiConnectionErrorLightStrategy.h>
+#include <..\BuildsTrafficLight\WifiModuleUtils.cpp>
+#include <..\BuildsTrafficLight\WifiModuleUtils.h>
 #endif

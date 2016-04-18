@@ -58,7 +58,7 @@ char DataReader_::handleNextCharWithChunked(char &c) {
 			chunked_data_len_not_parse = "";
 			chunkedState = READ_CHUNKED_DATA;
 			if (chunked_data_len == 0) {
-				return END_OF_DATA_CHAR;
+				return CHUNKED_DATA_LAST_CHAR;
 			}
 		}
 		else {
@@ -82,10 +82,10 @@ char DataReader_::handleNextCharWithChunked(char &c) {
 	return SKIP_CHAR;
 }
 
-char DataReader_::handleNextChar(char &c) {
+boolean DataReader_::handleNextChar(char &c) {
 	c = handleNextCharWithIPD(c);
 	if (SKIP_CHAR == c) {
-		return SKIP_CHAR;
+		return false;
 	}
 
 	if (false == isReadHeader) { // if not read header
@@ -94,16 +94,20 @@ char DataReader_::handleNextChar(char &c) {
 			char_count += 1;
 			if (char_count == END_OF_HEADER_TEMPLATE.length()) {
 				char_count = 0;
-						
+
+				// check 200 status in header
+				isSuccessedRespStatus = tempHeader->indexOf(F("HTTP/1.1 200")) != -1;
+
 				if ((*tempHeader).indexOf(CHUNKED_TEMPLATE) != -1) {
 					isChunked = true;
 					chunkedState = READ_CHUNKED_LEN;
-				} else {
+				}
+				else {
 					// if not chuncked - read content length
-					char ind = (*tempHeader).indexOf(CONTENT_LEN_TEMPLATE);
+					int ind = (*tempHeader).indexOf(CONTENT_LEN_TEMPLATE);
 					ind += CONTENT_LEN_TEMPLATE.length();
 					String cont_len_not_parse = "";
-					while ((*tempHeader).charAt(ind) != '\r') {
+					while (tempHeader->charAt(ind) != '\r') {
 						cont_len_not_parse += (*tempHeader).charAt(ind);
 						ind++;
 					}
@@ -127,17 +131,26 @@ char DataReader_::handleNextChar(char &c) {
 	}
 	else {
 		if (true == isChunked) { // if data encoding is chucked 
-			return handleNextCharWithChunked(c);
+			c = handleNextCharWithChunked(c);
+			if (c == CHUNKED_DATA_LAST_CHAR)
+			{
+				c = SKIP_CHAR;
+				return true;
+			}
+			else {
+				return false;
+			}
 		}
 		else {
 			content_length--;
 			if (content_length <= 0) {
-				return END_OF_DATA_CHAR;
+				return true;
 			}
-			return c; // data if encoding is not chunked
+			return false; // data if encoding is not chunked
 		}
 	}
-	return SKIP_CHAR;
+	c = SKIP_CHAR;
+	return false;
 }
 
 unsigned int DataReader_::hexToDec(String &hexString) {
@@ -169,6 +182,11 @@ void DataReader_::initRead(boolean isNeedHeader) {
 	chunked_data_len = 0;
 	content_length = 0;
 	tempHeader = new String;
+
+	CHUNKED_TEMPLATE = String(F("chunked"));
+	IPD_COM_TEMPLATE = String(F("+IPD,"));
+	END_OF_HEADER_TEMPLATE = String(F("\r\n\r\n"));
+	CONTENT_LEN_TEMPLATE = String(F("Content-Length: "));
 }
 
 DataReader_::DataReader_(boolean saveHeader) {
@@ -183,4 +201,9 @@ DataReader_::~DataReader_() {
 
 String & DataReader_::getLastHeader() {
 	return lastResponseHeader;
+}
+
+boolean DataReader_::isSuccessedResp()
+{
+	return isSuccessedRespStatus;
 }

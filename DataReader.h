@@ -9,8 +9,8 @@
 	#include "WProgram.h"
 #endif
 
-#define END_OF_DATA_CHAR -2
 #define SKIP_CHAR -1
+#define CHUNKED_DATA_LAST_CHAR -2
 
 class DataReader_ {
 public:
@@ -20,10 +20,11 @@ public:
 	~DataReader_();
 
 	void initRead(boolean isNeedHeader);
-	// handle next char (return -1 if char is not data or char if it is data)
-	char handleNextChar(char &c);
-	void clearMemory();
+	// handle next char (return false if not last char /not modify char if data or modify to skip char)
+	boolean handleNextChar(char &c);
 	String & getLastHeader();
+
+	boolean isSuccessedResp();
 
 private:
 
@@ -34,6 +35,7 @@ private:
 	String lastResponseHeader;
 	String* tempHeader;
 	boolean saveHeader;
+	boolean isSuccessedRespStatus = false;
 
 	byte state;
 	byte chunkedState;
@@ -49,10 +51,10 @@ private:
 	boolean isReadHeader = false; // if header already read
 	boolean isChunked = false;  // if data encoding is chuncked
 	
-	String CHUNKED_TEMPLATE = "chunked";
-	String IPD_COM_TEMPLATE = "+IPD,";
-	String END_OF_HEADER_TEMPLATE = "\r\n\r\n";
-	String CONTENT_LEN_TEMPLATE = "Content - Length: ";
+	String CHUNKED_TEMPLATE;
+	String IPD_COM_TEMPLATE;
+	String END_OF_HEADER_TEMPLATE;
+	String CONTENT_LEN_TEMPLATE;
 	
 	int char_count; // temp counter when need to find string
 

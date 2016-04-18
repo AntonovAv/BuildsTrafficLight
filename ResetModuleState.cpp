@@ -1,13 +1,13 @@
 // 
 // 
 // 
-#include "ConnectToWiFiState.h"
+#include "ReadIdsState.h"
 #include "ResetModuleState.h"
 
 ResetModuleState::ResetModuleState() {
-	nextState = new ConnectToWiFiState();
+	nextState = new ReadIdsState();
 
-	delayMs = 1000;
+	delayMs = 1;
 
 	MAX_REPEATS = 0;
 	countOfRepeats = 0;
@@ -21,11 +21,12 @@ ResetModuleState::~ResetModuleState() {
 void ResetModuleState::process() {
 	Serial.println(F("---ResetModuleState---"));
 
+	// hard reset of wifi module
 	digitalWrite(MODULE_RESET_PIN, LOW);
 	delay(100);
 	digitalWrite(MODULE_RESET_PIN, HIGH);
-	delay(2000);
+	delay(1000);
 
-	Serial.setTimeout(2000);
-	Serial.print(Serial1.readString()); // read resp from module
+	Serial.setTimeout(1000);
+	Serial1.readString(); // read resp from module
 }

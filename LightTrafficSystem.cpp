@@ -17,7 +17,6 @@ void LightTrafficSystem::setCurrentState() {
 		delete currentState;
 		currentState = newState;
 	}
-	//Serial.print(F("Memory aafter change state: ")); Serial.println(SystemUtils.freeRam());
 }
 
 void LightTrafficSystem::updateLightStrategy() {
