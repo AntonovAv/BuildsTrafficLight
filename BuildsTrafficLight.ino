@@ -25,20 +25,13 @@
 #include <TimerOne.h>
 #include <eeprom.h>
 
-
-#define RED_MASK 1
-#define RED_BLINK_MASK 2
-#define YELLOW_MASK 4
-#define YELLOW_BLINK_MASK 8
-#define GREEN_MASK 16
-#define GREEN_BLINK_MASK 32
-#define BLINK_MASK 42
-#define START_ADDRESS_OF_BUILD_IDS 199
-
 LightTrafficSystem system = LightTrafficSystem(new ReadIdsState(), new InitSystemLightStrategy());
 
+int speakerOut = 5;
 
 void setup() {
+	pinMode(speakerOut, OUTPUT); // speaker
+
 	pinMode(MODULE_RESET_PIN, OUTPUT);
 	digitalWrite(MODULE_RESET_PIN, HIGH);
 
@@ -67,6 +60,20 @@ void setup() {
 }
 
 boolean isSetup = false;
+
+void routineProcess()
+{
+	if (isSetup != true)
+	{
+		system.lighting();
+		system.checkAliveOfSystem();
+		if (Serial.available())
+		{
+			isSetup = true;
+		}
+	}
+}
+
 void loop() {
 	Serial.print(F("CurMem: ")); Serial.println(SystemUtils.freeRam());
 	system.process();
@@ -79,8 +86,8 @@ void loop() {
 		printSetupMenuText();
 
 		Serial.setTimeout(200);
-		String input = Serial.readString();
-		input.trim();
+		String input = Serial.readString();input.trim();
+
 		while (!input.equalsIgnoreCase(F("exit")))
 		{
 			input = Serial.readString(); input.trim();
@@ -118,19 +125,6 @@ void loop() {
 		}
 		delete testLStrategy;
 		isSetup = false;
-	}
-}
-
-void routineProcess()
-{
-	if (isSetup != true)
-	{
-		system.lighting();
-		system.checkAliveOfSystem();
-		if (Serial.available())
-		{
-			isSetup = true;
-		}
 	}
 }
 
