@@ -13,7 +13,8 @@
 #define TRAFFIC_LIGHT_PARAMS_EEPROM_ADDR 0 // lenght 1+1+1 = 3 bytes
 #define BUILD_SERVER_PARAMS_EEPROM_ADDR 3 //lenght 4 + 4 bytes
 #define SOUND_PARAMS_EEPROM_ADDR 11 // lenght 1 byte
-#define WIFI_PARAMS_EEPROM_ADDR 12 // lenght 64 bytes
+#define DEBUG_MODE_EEPROM_ADDR 12 // lenght 1 byte
+#define WIFI_PARAMS_EEPROM_ADDR 13 // lenght 64 bytes
 
 // in percents 
 struct TrafficLightBrightness
@@ -57,11 +58,15 @@ class SystemConfigClass
 	SoundParams getSoundParams();
 	void updateSoundParams(SoundParams newParams);
 
+	boolean isDebugMode();
+	void updateDebugMode(boolean isDebug);
+
 private:
 	WiFiParams wifiParams;
 	TrafficLightBrightness trLightBrightness;
 	BuildServerParams buildServerParams;
 	SoundParams soundParams;
+	boolean isDebug;
 };
 
 extern SystemConfigClass SystemConfig;

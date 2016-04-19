@@ -34,14 +34,12 @@ int SystemUtils_::readFromEEPROMToString(int start, char delim, String& buff) {
 	return currentAddr;
 }
 
-void SystemUtils_::readBuildIdsFromEEPROM() {
-	byte len = EEPROM.read(START_EEPROM_ADDRESS_BUILD_IDS); // read len of build ids
-	int currentAddr = START_EEPROM_ADDRESS_BUILD_IDS + 1;
-	String temp;
-	for (int i = 0; i < len; i++) {
-		currentAddr = readFromEEPROMToString(currentAddr, 0, temp);
-		Serial.print(F("EEPROM: "));Serial.println(temp);
-		temp = "";
-		Serial.print(F("curAddr: "));Serial.println(String(currentAddr));
-	}
+void SystemUtils_::printError(byte error)
+{
+	Serial.print(F("error: ")); Serial.println(error);
+}
+
+void SystemUtils_::printFreeMemory()
+{
+	Serial.print(F("free ram: ")); Serial.println(freeRam());
 }

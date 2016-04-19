@@ -101,7 +101,7 @@ void ReadDataOfIdsState::process() {
 
 	}
 	else {
-		Serial.print(F("Error: ")); Serial.println(respStatus);
+		SystemUtils.printError(respStatus);
 
 		if (countOfRepeats < MAX_REPEATS) {
 
@@ -151,21 +151,18 @@ byte ReadDataOfIdsState::handleIDStatus() {
 		delay(1);
 	}
 	if (false == breaker) {
-		Serial.println(F("Connection timeout"));
 		responceStatus = CONNECTION_TIME_OUT;
 	}
 	else {
 		byte countValue = 0; // if for config there is info for only one build
 
 		if (true == dataReader->isSuccessedResp() && dataParser->getLengthOfDataResults()[2] != 1) {
-			Serial.println(F("err read stus"));
 			responceStatus = READ_STATE_OF_ID_ERROR;
 		}
 		else {
 			countValue = dataParser->getResultData()[2][0]->toInt();
 
 			if (dataParser->getLengthOfDataResults()[0] != countValue || dataParser->getLengthOfDataResults()[1] != countValue) {
-				Serial.println(F("err read stus"));
 				responceStatus = READ_STATE_OF_ID_ERROR;
 			}
 			else {

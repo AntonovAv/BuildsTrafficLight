@@ -25,6 +25,7 @@ public:
 
 	boolean connectToAP();
 	boolean disconnectAP();
+	void printAvailableAPs();
 
 	boolean softReset();
 	boolean hardReset();

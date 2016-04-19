@@ -73,6 +73,8 @@ public:
 	
 	const byte START_EEPROM_ADDRESS_BUILD_IDS = 100;
 
+	void printError(byte error);
+	void printFreeMemory();
 };
 
 static SystemUtils_ SystemUtils;

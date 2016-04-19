@@ -32,7 +32,7 @@ void ReconnectToWiFiState::process() {
 		nextState = new BuildServerCheckingState();
 	}
 	else {
-		Serial.print(F("Error: ")); Serial.println(WIFI_CONNECTION_ERROR);
+		SystemUtils.printError(WIFI_CONNECTION_ERROR);
 		
 		lightStrategy = new WiFiConnectionErrorLightStrategy();
 		delayMs = 1000;

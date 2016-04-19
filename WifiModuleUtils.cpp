@@ -33,6 +33,22 @@ boolean WifiModuleUtils::disconnectAP()
 	return findModuleResp(F("OK"));		  // Purge 'OK'
 }
 
+void WifiModuleUtils::printAvailableAPs()
+{
+	moduleStream->println(F("AT+CWLAP"));
+	findModuleResp(F("OK"));
+	int timeOut = 2000;
+	while (timeOut > 0)
+	{
+		while (moduleStream->available())
+		{
+			Serial.write(moduleStream->read());
+		}
+		delay(1);
+		timeOut--;
+	}
+}
+
 boolean WifiModuleUtils::softReset()
 {
 	boolean  found = false;

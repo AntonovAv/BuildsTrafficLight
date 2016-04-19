@@ -39,13 +39,14 @@ void setup() {
 	//while (!Serial) {}
 	Serial1.begin(115200);
 
-	Timer1.initialize(1000000L / FAST_TIMER_TICKS_IN_1SEC); // 1 sec/COEFF
+	long oneSec = 1000000L;
+	Timer1.initialize(oneSec / FAST_TIMER_TICKS_IN_1SEC); // 1 sec/COEFF
 	Timer1.pwm(RED_PIN, 0);
 	Timer1.pwm(YELLOW_PIN, 0);
 	Timer1.pwm(GREEN_PIN, 0);
 	//Timer1.attachInterrupt(func);
 
-	Timer3.initialize(1000000L / MAIN_TIMER_TICKS_IN_1SEC);
+	Timer3.initialize(oneSec / MAIN_TIMER_TICKS_IN_1SEC);
 	Timer3.attachInterrupt(routineProcess);
 
 	SystemConfig.initFromEEPROM();// init system settings stored in eeprom
@@ -75,7 +76,7 @@ void routineProcess()
 }
 
 void loop() {
-	Serial.print(F("CurMem: ")); Serial.println(SystemUtils.freeRam());
+	SystemUtils.printFreeMemory();
 	system.process();
 
 	if (isSetup == true)
@@ -91,35 +92,35 @@ void loop() {
 		while (!input.equalsIgnoreCase(F("exit")))
 		{
 			input = Serial.readString(); input.trim();
-			boolean isCorrectCmd = false;
 			if (!input.equalsIgnoreCase(""))
 			{
 				Serial.println(input);
 				if (input.startsWith(F("wifi"))) 
 				{
-					isCorrectCmd = true;
 					setNewWiFiParams(input);
-					WifiUtils.connectToAP() == true ? Serial.println(F("Conn")) : Serial.println(F("Not conn"));
+					WifiUtils.connectToAP() == true ? Serial.println(F("conn")) : Serial.println(F("not conn"));
 				}
 				if (input.startsWith(F("host"))) 
 				{
-					isCorrectCmd = true;
 					setNewHostParams(input);
 				}
 				if (input.startsWith(F("sound"))) 
 				{
-					isCorrectCmd = true;
 					setNewSoundParams(input);
 				}
 				if (input.startsWith(F("br"))) 
 				{
-					isCorrectCmd = true;
 					setNewBrightParams(input);
 					testLStrategy->lighting();
 				}
-			}
-			if (isCorrectCmd == true)
-			{
+				if (input.startsWith(F("debug")))
+				{
+					setNewDebugMode(input);
+				}
+				if (input.startsWith(F("ap_ls")))
+				{
+					WifiUtils.printAvailableAPs();
+				}
 				printSetupMenuText();
 			}
 		}
@@ -133,6 +134,8 @@ void printSetupMenuText()
 	Serial.println(F("\n---Setup Menu---"));
 	Serial.print(F("'exit' for cancel, cmds:")); Serial.println();
 	
+	Serial.print(F("'ap_ls' list of APs"));
+
 	WiFiParams wifiParam = SystemConfig.getWifiParams();
 	Serial.print(F("'wifi ssid,pass' cur: ")); Serial.print(wifiParam.ssid); Serial.print(F(",")); Serial.print(wifiParam.pass); Serial.println();
 
@@ -143,6 +146,8 @@ void printSetupMenuText()
 	SoundParams sParams = SystemConfig.getSoundParams();
 	Serial.print(F("'sound on/off'   cur: ")); sParams.isOn == 0 ? Serial.print(F("off")) : Serial.print(F("on")); Serial.println();
 	
+	Serial.print(F("'debug on/off'   cur: ")); SystemConfig.isDebugMode() == true ? Serial.print(F("on")) : Serial.print(F("off")); Serial.println();
+
 	TrafficLightBrightness trLightBr = SystemConfig.getTrafficLightBrightness();
 	Serial.print(F("'br_r %' cur: ")); Serial.print(trLightBr.red); Serial.println();
 	Serial.print(F("'br_y %' cur: ")); Serial.print(trLightBr.yellow); Serial.println();
@@ -192,6 +197,11 @@ void setNewSoundParams(String rawParams)
 	soundParams.isOn = (rawParams.indexOf(F("on")) != -1 ? 1 : 0);
 
 	SystemConfig.updateSoundParams(soundParams);
+}
+
+void setNewDebugMode(String rawParams)
+{
+	SystemConfig.updateDebugMode(rawParams.indexOf(F("on")) != -1);
 }
 
 void setNewBrightParams(String rawParams)

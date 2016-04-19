@@ -53,7 +53,7 @@ void LightTrafficSystem::checkAliveOfSystem() {
 	}
 	else { 
 		// system is stoped
-		Serial.print(F("System is stoped: ")); Serial.println(SystemUtils.freeRam());
+		Serial.print(F("sys is stopped: ")); SystemUtils.printFreeMemory();
 		if (currentState != 0) {
 			delete currentState;
 		}

@@ -53,8 +53,7 @@ void BuildServerCheckingState::process() {
 		nextState = new ReadIdsState();
 	}
 	else {
-
-		Serial.print(F("Error: ")); Serial.println(respStatus);
+		SystemUtils.printError(respStatus);
 
 		if (respStatus == NOT_CONNECTED_ERROR)
 		{
