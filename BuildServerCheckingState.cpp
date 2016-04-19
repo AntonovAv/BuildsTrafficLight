@@ -30,10 +30,7 @@ void BuildServerCheckingState::process() {
 		if (WifiUtils.prepareRequest(request))
 		{
 			WifiUtils.sendRequest(request);
-			if (!WifiUtils.findModuleResp(F("HTTP/1.1 200")))
-			{
-				respStatus = GET_REQUEST_NOT_PREPARED_ERROR;
-			}
+			WifiUtils.findModuleResp(F("200 OK"), 2000); //todo need to check that this url is not valid
 		}
 		else
 		{

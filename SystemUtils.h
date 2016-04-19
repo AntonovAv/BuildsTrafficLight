@@ -41,7 +41,7 @@
 #define GREEN_PIN 9
 
 #define MAIN_TIMER_TICKS_IN_1SEC 10 // times is 1 sec
-#define FAST_TIMER_TICKS_IN_1SEC 1000
+#define FAST_TIMER_TICKS_IN_1SEC 100000
 
 #define MODULE_RESET_PIN 2
 

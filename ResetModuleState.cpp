@@ -29,4 +29,6 @@ void ResetModuleState::process() {
 
 	Serial.setTimeout(1000);
 	Serial1.readString(); // read resp from module
+
+	WifiUtils.softReset();
 }

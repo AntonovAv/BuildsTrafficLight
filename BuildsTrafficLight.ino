@@ -52,7 +52,6 @@ void setup() {
 	SystemConfig.initFromEEPROM();// init system settings stored in eeprom
 
 	WifiUtils.softReset();
-	WifiUtils.connectToAP();
 
 	/*for (;;) {
 		if (Serial.available())  Serial1.write(Serial.read());
@@ -76,7 +75,11 @@ void routineProcess()
 }
 
 void loop() {
-	SystemUtils.printFreeMemory();
+	if (SystemConfig.isDebugMode())
+	{
+		SystemUtils.printFreeMemory();
+	}
+	// process current state of system (main process)
 	system.process();
 
 	if (isSetup == true)
@@ -134,7 +137,7 @@ void printSetupMenuText()
 	Serial.println(F("\n---Setup Menu---"));
 	Serial.print(F("'exit' for cancel, cmds:")); Serial.println();
 	
-	Serial.print(F("'ap_ls' list of APs"));
+	Serial.print(F("'ap_ls' list of APs")); Serial.println();
 
 	WiFiParams wifiParam = SystemConfig.getWifiParams();
 	Serial.print(F("'wifi ssid,pass' cur: ")); Serial.print(wifiParam.ssid); Serial.print(F(",")); Serial.print(wifiParam.pass); Serial.println();

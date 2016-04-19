@@ -12,6 +12,7 @@ boolean WifiModuleUtils::connectToAP()
 	{
 		return false;
 	}
+	clearInputBuffer();
 	moduleStream->print(F("AT+CWJAP=\"")); // Join access point
 	moduleStream->print(wifiParams.ssid); 
 	moduleStream->print(F("\",\""));
@@ -22,6 +23,7 @@ boolean WifiModuleUtils::connectToAP()
 	{
 		return false;
 	}
+	clearInputBuffer();
 	moduleStream->println(F("AT+CIPMUX=0"));
 
 	return findModuleResp(F("OK"));   // Await 'OK'
@@ -37,7 +39,7 @@ void WifiModuleUtils::printAvailableAPs()
 {
 	moduleStream->println(F("AT+CWLAP"));
 	findModuleResp(F("OK"));
-	int timeOut = 2000;
+	int timeOut = 4000;
 	while (timeOut > 0)
 	{
 		while (moduleStream->available())
@@ -51,13 +53,15 @@ void WifiModuleUtils::printAvailableAPs()
 
 boolean WifiModuleUtils::softReset()
 {
-	boolean  found = false;
+	boolean found = true;
+
 	moduleStream->println(F("AT+RST"));  // Issue soft-reset command
-	if (findModuleResp(F("ready"), ESP_RESET_TIMEOUT)) {           // Wait for boot message
-		moduleStream->println(F("ATE0"));       // Turn off echo
-		found = findModuleResp(F("OK"));        // OK?
-	}
-	return true;
+	found &= findModuleResp(F("ready"), ESP_RESET_TIMEOUT);  // Wait for boot message
+
+	moduleStream->println(F("ATE0"));       // Turn off echo
+	found &= findModuleResp(F("OK"));        // OK?
+
+	return found;
 }
 
 boolean WifiModuleUtils::hardReset()
@@ -110,9 +114,9 @@ boolean WifiModuleUtils::findModuleResp(const String & strForFind, int timeOut)
 	return isFounded;
 }
 
-void WifiModuleUtils::clearInputBuffer()
+void WifiModuleUtils::clearInputBuffer(int timeout)
 {
-	moduleStream->setTimeout(100);
+	moduleStream->setTimeout(timeout);
 	moduleStream->readString();
 }
 

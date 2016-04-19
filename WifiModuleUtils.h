@@ -36,7 +36,7 @@ public:
 	boolean closeTCP();
 
 	boolean findModuleResp(const String& strForFind, int timeOut = ESP_RECEIVE_RESPONCE_TIMEOUT);
-	void clearInputBuffer();
+	void clearInputBuffer(int timeout = 100);
 private:
 	String getFormatedHostIp(byte* rawIp);
 	Stream* moduleStream = &Serial1;

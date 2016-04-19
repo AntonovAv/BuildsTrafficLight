@@ -112,7 +112,11 @@ byte ReadIdsState::readIds() {
 			byte idsInResponce = 0;
 			if (dataParser->getLengthOfDataResults()[0] != 0) {
 				idsInResponce = dataParser->getResultData()[0][0]->toInt();
-				Serial.print(F("n ids: ")); Serial.println(idsInResponce); // get len of ids
+
+				if (SystemConfig.isDebugMode())
+				{
+					Serial.print(F("n ids: ")); Serial.println(idsInResponce); // get len of ids
+				}
 
 				if (dataParser->getLengthOfDataResults()[1] == idsInResponce) {
 					SystemUtils.updateBuildsIdsInEEPROM(dataParser->getResultData()[1], dataParser->getLengthOfDataResults()[1]); // write ids to eeprom

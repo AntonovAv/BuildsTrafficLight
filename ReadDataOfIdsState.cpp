@@ -49,11 +49,12 @@ void ReadDataOfIdsState::process() {
 			if (WifiUtils.prepareRequest(request))
 			{
 				// debug
-				Serial.println(F("--req--")); Serial.print(request); Serial.println(F("--end--"));
+				if (SystemConfig.isDebugMode())
+				{
+					Serial.println(F("--req--")); Serial.print(request); Serial.println(F("--end--"));
+					Serial.print(F("id: ")); Serial.println(currentID);
+				}
 				WifiUtils.sendRequest(request);
-
-				Serial.println();
-				Serial.print(F("id: "));Serial.println(currentID);
 
 				respStatus = handleIDStatus();
 			}
@@ -71,7 +72,6 @@ void ReadDataOfIdsState::process() {
 			}
 
 			currentID = "";
-			//Serial.print(F("Memory after handle: ")); Serial.println(SystemUtils.freeRam());
 		}
 
 		WifiUtils.closeTCP();
@@ -171,12 +171,14 @@ byte ReadDataOfIdsState::handleIDStatus() {
 					/* if first  failure - faild and finish
 					if second - failure, and current - runnig - Faild and finish and read other configs
 					*/
-					if ((*dataParser->getResultData()[0][0]).equalsIgnoreCase(F("FAILURE"))) {
+					String failTmpl = String(F("FAILURE"));
+
+					if ((*dataParser->getResultData()[0][0]).equalsIgnoreCase(failTmpl)) {
 						STATE_OF_BUILDS = FAILED;
 					}
 					else {
 						// if faild and running and countValue is 2
-						if (2 == countValue && (*dataParser->getResultData()[0][1]).equalsIgnoreCase(F("FAILURE"))) {
+						if (2 == countValue && (*dataParser->getResultData()[0][1]).equalsIgnoreCase(failTmpl)) {
 							if ((*dataParser->getResultData()[1][0]).equalsIgnoreCase(F("running"))) {
 								if (STATE_OF_BUILDS != FAILED) {
 									STATE_OF_BUILDS = FAILED_AND_RUNNING;
@@ -184,11 +186,14 @@ byte ReadDataOfIdsState::handleIDStatus() {
 							}
 						}
 					}
-					Serial.print("status: "); Serial.print((*dataParser->getResultData()[0][0]));
-					Serial.print(" state: "); Serial.println((*dataParser->getResultData()[1][0]));
-					if (2 == countValue) {
-						Serial.print("status: "); Serial.print((*dataParser->getResultData()[0][1]));
-						Serial.print(" state: "); Serial.println((*dataParser->getResultData()[1][1]));
+					if (SystemConfig.isDebugMode())
+					{
+						String status = String(F("status"));
+
+						Serial.print(status); Serial.print((*dataParser->getResultData()[0][0])); Serial.print(F(" ")); Serial.println((*dataParser->getResultData()[1][0]));
+						if (2 == countValue) {
+							Serial.print(status); Serial.print((*dataParser->getResultData()[0][1])); Serial.print(F(" ")); Serial.println((*dataParser->getResultData()[1][1]));
+						}
 					}
 				}
 
