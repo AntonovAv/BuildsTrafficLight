@@ -25,7 +25,7 @@ private:
 	SystemState* currentState;
 	BasicLightStrategy* currentLightStrategy;
 
-	long MAX_BUSY_TIME = 240 * COEFF_FOR_1SEC; //4 minute - max time between state switch
+	long MAX_BUSY_TIME = 240 * MAIN_TIMER_TICKS_IN_1SEC; //4 minute - max time between state switch
 	long counterForBusyTime = 0; // resets in process method
 };
 

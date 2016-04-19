@@ -25,9 +25,9 @@ void BuildServerCheckingState::process() {
 
 	String request = String(F(xstr(BUILD_TYPES_URL)));
 	byte respStatus = NO_ERRORS;
-	if (WifiUtils.connectTCP(F(xstr(SERVER_IP)), F(xstr(PORT))))
+	if (WifiUtils.connectTCP())
 	{
-		if (WifiUtils.prepareRequest(request, F(xstr(PORT))))
+		if (WifiUtils.prepareRequest(request))
 		{
 			WifiUtils.sendRequest(request);
 			if (!WifiUtils.findModuleResp(F("HTTP/1.1 200")))

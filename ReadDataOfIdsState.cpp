@@ -37,7 +37,7 @@ void ReadDataOfIdsState::process() {
 	String currentID;
 	byte respStatus;
 
-	if (WifiUtils.connectTCP(F(xstr(SERVER_IP)), F(xstr(PORT))))
+	if (WifiUtils.connectTCP())
 	{
 		for (int i = 0; i < lenIds; i++) {
 			
@@ -46,14 +46,14 @@ void ReadDataOfIdsState::process() {
 			String request = String(F(BUILD_TYPES_URL)) + String(F(BUILD_STATE_URL));
 			request.replace(F(ID_PLACEHOLDER), currentID);
 
-			if (WifiUtils.prepareRequest(request, F(xstr(SERVER_IP))))
+			if (WifiUtils.prepareRequest(request))
 			{
 				// debug
-				Serial.print("<s>" + request + "</s>");
+				Serial.println(F("--req--")); Serial.print(request); Serial.println(F("--end--"));
 				WifiUtils.sendRequest(request);
 
 				Serial.println();
-				Serial.println("id: " + currentID);
+				Serial.print(F("id: "));Serial.println(currentID);
 
 				respStatus = handleIDStatus();
 			}
@@ -84,7 +84,7 @@ void ReadDataOfIdsState::process() {
 	// choose next state
 	if (respStatus == NO_ERRORS) {
 
-		delayMs = 30000; // sec if all good
+		delayMs = 5000; // msec if all good
 
 		nextState = new ReadIdsState();
 

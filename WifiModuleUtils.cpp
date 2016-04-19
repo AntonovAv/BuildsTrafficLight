@@ -4,17 +4,18 @@
 
 #include "WifiModuleUtils.h"
 
-boolean WifiModuleUtils::connectToAP(const String & ssid, const String & password)
+boolean WifiModuleUtils::connectToAP()
 {
+	WiFiParams wifiParams = SystemConfig.getWifiParams();
 	moduleStream->println(F("AT+CWMODE=1")); // WiFi mode = Sta
 	if (!findModuleResp(F("OK")))
 	{
 		return false;
 	}
 	moduleStream->print(F("AT+CWJAP=\"")); // Join access point
-	moduleStream->print(ssid);
+	moduleStream->print(wifiParams.ssid); 
 	moduleStream->print(F("\",\""));
-	moduleStream->print(password);
+	moduleStream->print(wifiParams.pass);
 	moduleStream->println('\"');
 
 	if (!findModuleResp(F("OK"), ESP_CONNECT_AP_TIMEOUT))
@@ -48,13 +49,14 @@ boolean WifiModuleUtils::hardReset()
 	return boolean();
 }
 
-boolean WifiModuleUtils::connectTCP(const String & host, const String & port)
+boolean WifiModuleUtils::connectTCP()
 {
+	BuildServerParams bsParams = SystemConfig.getBuildServerParams();
 	clearInputBuffer();
 	moduleStream->print(F("AT+CIPSTART=\"TCP\",\""));
-	moduleStream->print(host);
+	moduleStream->print(getFormatedHostIp(bsParams.ip));
 	moduleStream->print(F("\","));
-	moduleStream->println(port);
+	moduleStream->println(bsParams.port);
 
 	return findModuleResp(F("OK"), 2000);
 }
@@ -66,10 +68,10 @@ boolean WifiModuleUtils::closeTCP()
 	return findModuleResp(F("CLOSED"), 2000);
 }
 
-boolean WifiModuleUtils::prepareRequest(String & request, const String & host)
+boolean WifiModuleUtils::prepareRequest(String & request)
 {
 	clearInputBuffer();
-	request = String(F("GET ")) + request + String(F(" HTTP/1.1\r\nHost: ")) + host + String(F("\r\nAccept: application/json\r\n\r\n"));
+	request = String(F("GET ")) + request + String(F(" HTTP/1.1\r\nHost: ")) + getFormatedHostIp(SystemConfig.getBuildServerParams().ip) + String(F("\r\nAccept: application/json\r\n\r\n"));
 	moduleStream->print(F("AT+CIPSEND="));
 	moduleStream->println(request.length());
 
@@ -96,4 +98,10 @@ void WifiModuleUtils::clearInputBuffer()
 {
 	moduleStream->setTimeout(100);
 	moduleStream->readString();
+}
+
+String WifiModuleUtils::getFormatedHostIp(byte * rawIp)
+{
+	String dot = String(F("."));
+	return rawIp[0] + dot + rawIp[1] + dot + rawIp[2] + dot + rawIp[3];
 }

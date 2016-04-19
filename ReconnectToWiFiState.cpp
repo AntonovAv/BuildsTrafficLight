@@ -25,7 +25,7 @@ void ReconnectToWiFiState::process() {
 	
 	WifiUtils.softReset();
 
-	if (WifiUtils.connectToAP(F(xstr(WIFI_NAME)), F(xstr(WIFI_PASS)))) {
+	if (WifiUtils.connectToAP()) {
 		delayMs = 0;
 		lightStrategy = 0; //save prev
 

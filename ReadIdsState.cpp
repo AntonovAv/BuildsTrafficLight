@@ -27,10 +27,10 @@ void ReadIdsState::process() {
 
 	byte respStatus = NO_ERRORS;
 
-	if (WifiUtils.connectTCP(F(xstr(SERVER_IP)), F(xstr(PORT))))
+	if (WifiUtils.connectTCP())
 	{
 		String request = String(F(BUILD_TYPES_URL));
-		if (WifiUtils.prepareRequest(request, F(xstr(SERVER_IP))))
+		if (WifiUtils.prepareRequest(request))
 		{
 			WifiUtils.sendRequest(request);
 

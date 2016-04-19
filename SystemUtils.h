@@ -32,11 +32,6 @@
 #define TIME_OUT_ERROR 51
 #define CONNECTION_TIME_OUT 10000 // 10 sec
 
-#define WIFI_NAME internet///Acti311
-#define WIFI_PASS 654qwerty123//Actimind79Password
-#define SERVER_IP 192.168.0.2 //192.168.101.36
-#define PORT 8080//80
-
 #define BUILD_TYPES_URL "/guestAuth/app/rest/buildTypes/"
 #define BUILD_STATE_URL "id:#/builds/?locator=count:2,running:any"
 #define ID_PLACEHOLDER "#"
@@ -45,11 +40,8 @@
 #define YELLOW_PIN 10
 #define GREEN_PIN 9
 
-// 0 to 255 (need to dimming light traffic)
-#define DUTY_RED 245
-#define DUTY_YELLOW 245
-#define DUTY_GREEN 231 
-#define COEFF_FOR_1SEC 1000 // times is 1 sec
+#define MAIN_TIMER_TICKS_IN_1SEC 10 // times is 1 sec
+#define FAST_TIMER_TICKS_IN_1SEC 1000
 
 #define MODULE_RESET_PIN 2
 
@@ -59,12 +51,6 @@ public:
 
 	SystemUtils_(void) {};
 	~SystemUtils_() {};
-
-	String execCommand(const String& command, int pause = 1000, boolean needReturn = true);
-	byte prepareGetRequest(String& request, boolean needConnect);
-	byte testModule();
-	byte closeConnectionCommand();
-	byte connectToWiFi();
 
 	int freeRam();
 
@@ -85,8 +71,7 @@ public:
 	*/
 	int readFromEEPROMToString(int startAddress, char stop, String& buffer);
 	
-	const byte START_EEPROM_ADDRESS_BUILD_IDS = 199;
-	const byte START_EEPROM_ADDRESS_ERRORS = 0;
+	const byte START_EEPROM_ADDRESS_BUILD_IDS = 100;
 
 };
 

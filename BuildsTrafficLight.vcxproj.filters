@@ -93,6 +93,12 @@
     <ClInclude Include="ReconnectToWiFiState.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="SystemConfig.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="TestLightStrategy.h">
+      <Filter>Header Files\lightingStrategies</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="BasicLightStrategy.cpp">
@@ -151,6 +157,12 @@
     </ClCompile>
     <ClCompile Include="ReconnectToWiFiState.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SystemConfig.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="TestLightStrategy.cpp">
+      <Filter>Source Files\lightingStrategies</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

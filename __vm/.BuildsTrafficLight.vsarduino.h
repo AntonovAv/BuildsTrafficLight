@@ -96,10 +96,14 @@ extern "C" void __cxa_pure_virtual() {;}
 #include <..\BuildsTrafficLight\ReconnectToWiFiState.h>
 #include <..\BuildsTrafficLight\ResetModuleState.cpp>
 #include <..\BuildsTrafficLight\ResetModuleState.h>
+#include <..\BuildsTrafficLight\SystemConfig.cpp>
+#include <..\BuildsTrafficLight\SystemConfig.h>
 #include <..\BuildsTrafficLight\SystemState.cpp>
 #include <..\BuildsTrafficLight\SystemState.h>
 #include <..\BuildsTrafficLight\SystemUtils.cpp>
 #include <..\BuildsTrafficLight\SystemUtils.h>
+#include <..\BuildsTrafficLight\TestLightStrategy.cpp>
+#include <..\BuildsTrafficLight\TestLightStrategy.h>
 #include <..\BuildsTrafficLight\WiFiConnectionErrorLightStrategy.cpp>
 #include <..\BuildsTrafficLight\WiFiConnectionErrorLightStrategy.h>
 #include <..\BuildsTrafficLight\WifiModuleUtils.cpp>

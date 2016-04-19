@@ -10,6 +10,7 @@
 #endif
 
 #include "SystemUtils.h"
+#include "SystemConfig.h"
 
 #define ESP_RECEIVE_RESPONCE_TIMEOUT   1000L
 #define ESP_RESET_TIMEOUT     5000L
@@ -22,20 +23,21 @@ public:
 	WifiModuleUtils(void) {};
 	~WifiModuleUtils() {};
 
-	boolean connectToAP(const String& ssid, const String& password);
+	boolean connectToAP();
 	boolean disconnectAP();
 
 	boolean softReset();
 	boolean hardReset();
 
-	boolean connectTCP(const String& host, const String& port);
-	boolean prepareRequest(String &request, const String& host);
+	boolean connectTCP();
+	boolean prepareRequest(String &request);
 	void sendRequest(const String& request);
 	boolean closeTCP();
 
 	boolean findModuleResp(const String& strForFind, int timeOut = ESP_RECEIVE_RESPONCE_TIMEOUT);
 	void clearInputBuffer();
 private:
+	String getFormatedHostIp(byte* rawIp);
 	Stream* moduleStream = &Serial1;
 };
 
