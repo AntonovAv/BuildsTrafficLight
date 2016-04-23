@@ -40,8 +40,10 @@
 #define YELLOW_PIN 10
 #define GREEN_PIN 9
 
+#define SOUND_PIN 5
+
 #define MAIN_TIMER_TICKS_IN_1SEC 10 // times is 1 sec
-#define FAST_TIMER_TICKS_IN_1SEC 100000
+#define FAST_TIMER_TICKS_IN_1SEC 10000
 
 #define MODULE_RESET_PIN 2
 
@@ -61,10 +63,6 @@ public:
 	return addres of end ids
 	*/
 	int updateBuildsIdsInEEPROM(String** ids, byte len);
-	/*
-	Read all IDS of configurations from EEPROM to console
-	*/
-	void readBuildIdsFromEEPROM();
 	/*
 	Read data from EEPROM from current address to concrete char
 	int address of terminate char

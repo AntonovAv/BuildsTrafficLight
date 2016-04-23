@@ -99,6 +99,9 @@
     <ClInclude Include="TestLightStrategy.h">
       <Filter>Header Files\lightingStrategies</Filter>
     </ClInclude>
+    <ClInclude Include="RtttlPlayer.h">
+      <Filter>Header Files\utils</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="BasicLightStrategy.cpp">
@@ -163,6 +166,9 @@
     </ClCompile>
     <ClCompile Include="TestLightStrategy.cpp">
       <Filter>Source Files\lightingStrategies</Filter>
+    </ClCompile>
+    <ClCompile Include="RtttlPlayer.cpp">
+      <Filter>Source Files\utils</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

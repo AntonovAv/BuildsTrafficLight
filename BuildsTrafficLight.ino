@@ -1,5 +1,5 @@
+#include "RtttlPlayer.h"
 #include "TestLightStrategy.h"
-#include <TimerThree.h>
 #include "SystemConfig.h"
 #include "WifiModuleUtils.h"
 #include "WiFiConnectionErrorLightStrategy.h"
@@ -27,10 +27,10 @@
 
 LightTrafficSystem system = LightTrafficSystem(new ReadIdsState(), new InitSystemLightStrategy());
 
-int speakerOut = 5;
+const char song[] = "smbdeath:d=4,o=5,b=90:32c6,32c6,32c6,8p,16b,16f6,16p,16f6,16f.6,16e.6,16d6,16c6,16p,16e,16p,16c";
 
 void setup() {
-	pinMode(speakerOut, OUTPUT); // speaker
+	pinMode(SOUND_PIN, OUTPUT); // speaker
 
 	pinMode(MODULE_RESET_PIN, OUTPUT);
 	digitalWrite(MODULE_RESET_PIN, HIGH);
@@ -44,10 +44,7 @@ void setup() {
 	Timer1.pwm(RED_PIN, 0);
 	Timer1.pwm(YELLOW_PIN, 0);
 	Timer1.pwm(GREEN_PIN, 0);
-	//Timer1.attachInterrupt(func);
-
-	Timer3.initialize(oneSec / MAIN_TIMER_TICKS_IN_1SEC);
-	Timer3.attachInterrupt(routineProcess);
+	Timer1.attachInterrupt(routineProcess);
 
 	SystemConfig.initFromEEPROM();// init system settings stored in eeprom
 
@@ -57,21 +54,29 @@ void setup() {
 		if (Serial.available())  Serial1.write(Serial.read());
 		if (Serial1.available()) Serial.write(Serial1.read());
 	}*/
+	RtttlPlayer.begin(SOUND_PIN, song);
 }
 
 boolean isSetup = false;
 
+long counter = 0;
 void routineProcess()
 {
-	if (isSetup != true)
+	if (counter > FAST_TIMER_TICKS_IN_1SEC / MAIN_TIMER_TICKS_IN_1SEC)
 	{
-		system.lighting();
-		system.checkAliveOfSystem();
-		if (Serial.available())
+		counter = 0;
+		if (isSetup != true)
 		{
-			isSetup = true;
+			system.lighting();
+			system.checkAliveOfSystem();
+			if (Serial.available())
+			{
+				isSetup = true;
+			}
 		}
+		RtttlPlayer.play();
 	}
+	counter++;
 }
 
 void loop() {
@@ -134,29 +139,29 @@ void loop() {
 
 void printSetupMenuText()
 {
-	Serial.println(F("\n---Setup Menu---"));
-	Serial.print(F("'exit' for cancel, cmds:")); Serial.println();
+	/*Serial.println(F("\n---Setup Menu---"));
+	Serial.println(F("'exit' cancel, cmds:"));
 	
-	Serial.print(F("'ap_ls' list of APs")); Serial.println();
+	Serial.println(F("'ap_ls' list of APs"));
 
 	WiFiParams wifiParam = SystemConfig.getWifiParams();
-	Serial.print(F("'wifi ssid,pass' cur: ")); Serial.print(wifiParam.ssid); Serial.print(F(",")); Serial.print(wifiParam.pass); Serial.println();
+	Serial.print(F("'wifi ssid,pass' cur: ")); Serial.print(wifiParam.ssid); Serial.print(F(",")); Serial.println(wifiParam.pass);
 
 	BuildServerParams bsParam = SystemConfig.getBuildServerParams();
 	String dot = String(F("."));
-	Serial.print(F("'host ip:port'   cur: ")); Serial.print(bsParam.ip[0] + dot + bsParam.ip[1] + dot + bsParam.ip[2] + dot + bsParam.ip[3]); Serial.print(F(":")); Serial.print(bsParam.port); Serial.println();
+	Serial.print(F("'host ip:port'   cur: ")); Serial.print(bsParam.ip[0] + dot + bsParam.ip[1] + dot + bsParam.ip[2] + dot + bsParam.ip[3]); Serial.print(F(":")); Serial.println(bsParam.port);
 	
 	SoundParams sParams = SystemConfig.getSoundParams();
-	Serial.print(F("'sound on/off'   cur: ")); sParams.isOn == 0 ? Serial.print(F("off")) : Serial.print(F("on")); Serial.println();
+	Serial.print(F("'sound on/off'   cur: ")); sParams.isOn == 0 ? Serial.println(F("off")) : Serial.println(F("on"));
 	
-	Serial.print(F("'debug on/off'   cur: ")); SystemConfig.isDebugMode() == true ? Serial.print(F("on")) : Serial.print(F("off")); Serial.println();
+	Serial.print(F("'debug on/off'   cur: ")); SystemConfig.isDebugMode() == true ? Serial.println(F("on")) : Serial.println(F("off"));
 
 	TrafficLightBrightness trLightBr = SystemConfig.getTrafficLightBrightness();
-	Serial.print(F("'br_r %' cur: ")); Serial.print(trLightBr.red); Serial.println();
-	Serial.print(F("'br_y %' cur: ")); Serial.print(trLightBr.yellow); Serial.println();
-	Serial.print(F("'br_g %' cur: ")); Serial.print(trLightBr.green); Serial.println();
+	Serial.print(F("'br_r %' cur: ")); Serial.println(trLightBr.red);
+	Serial.print(F("'br_y %' cur: ")); Serial.println(trLightBr.yellow);
+	Serial.print(F("'br_g %' cur: ")); Serial.println(trLightBr.green); 
 	
-	Serial.println(F("---"));
+	Serial.println(F("---"));*/
 }
 
 void setNewWiFiParams(String rawParams)
@@ -180,16 +185,11 @@ void setNewHostParams(String rawParams)
 	String ipSplitter = String(F("."));
 	int prevIpSplitInd = 0;
 	int ipSplitInd = rawIp.indexOf(ipSplitter);
-	bsParams.ip[0] = rawIp.substring(prevIpSplitInd, ipSplitInd).toInt();
-	prevIpSplitInd = ipSplitInd + 1;
-	ipSplitInd = rawIp.indexOf(ipSplitter, prevIpSplitInd);
-	bsParams.ip[1] = rawIp.substring(prevIpSplitInd, ipSplitInd).toInt();
-	prevIpSplitInd = ipSplitInd + 1;
-	ipSplitInd = rawIp.indexOf(ipSplitter, prevIpSplitInd);
-	bsParams.ip[2] = rawIp.substring(prevIpSplitInd, ipSplitInd).toInt();
-	prevIpSplitInd = ipSplitInd + 1;
-	ipSplitInd = rawIp.indexOf(ipSplitter, prevIpSplitInd);
-	bsParams.ip[3] = rawIp.substring(prevIpSplitInd, ipSplitInd).toInt();
+	for (int ind = 0; ind < 4; ind++)
+	{
+		bsParams.ip[ind] = rawIp.substring(prevIpSplitInd, ipSplitInd).toInt();
+		prevIpSplitInd = ipSplitInd + 1;
+	}
 
 	SystemConfig.updateBuildServerParams(bsParams);
 }
