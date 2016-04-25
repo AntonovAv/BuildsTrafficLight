@@ -13,7 +13,7 @@
 #define __AVR_ATmega32u4__
 #define __AVR_ATmega32U4__
 #define F_CPU 16000000L
-#define ARDUINO 10605
+#define ARDUINO 10607
 #define ARDUINO_AVR_LEONARDO
 #define ARDUINO_ARCH_AVR
 #define USB_VID 0x2341
@@ -98,6 +98,8 @@ extern "C" void __cxa_pure_virtual() {;}
 #include <..\BuildsTrafficLight\ResetModuleState.h>
 #include <..\BuildsTrafficLight\RtttlPlayer.cpp>
 #include <..\BuildsTrafficLight\RtttlPlayer.h>
+#include <..\BuildsTrafficLight\SoundManager.cpp>
+#include <..\BuildsTrafficLight\SoundManager.h>
 #include <..\BuildsTrafficLight\SystemConfig.cpp>
 #include <..\BuildsTrafficLight\SystemConfig.h>
 #include <..\BuildsTrafficLight\SystemMenu.cpp>

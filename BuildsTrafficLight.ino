@@ -1,3 +1,4 @@
+#include "SoundManager.h"
 #include <EEPROM.h>
 #include "SystemMenu.h"
 #include "RtttlPlayer.h"
@@ -15,12 +16,7 @@
 
 LightTrafficSystem system = LightTrafficSystem(new ReadIdsState(), new InitSystemLightStrategy());
 
-const PROGMEM char song[] = "smbdeath:d=4,o=5,b=90:32c6,32c6,32c6,8p,16b,16f6,16p,16f6,16f.6,16e.6,16d6,16c6,16p,16e,16p,16c";
-const PROGMEM char song3[] = "smbdeath:d=4,o=5,b=90:32c6,32c6,32c6,8p,16b,16f6,16p,16f6,16f.6,16e.6,16d6,16c6,16p,16e,16p,16c";
-const PROGMEM char song2[] = "smbdeath:d=4,o=5,b=90:32c6,32c6,32c6,8p,16b,16f6,16p,16f6,16f.6,16e.6,16d6,16c6,16p,16e,16p,16c";
-
 void setup() {
-	pinMode(SOUND_PIN, OUTPUT); // speaker
 
 	pinMode(MODULE_RESET_PIN, OUTPUT);
 	digitalWrite(MODULE_RESET_PIN, HIGH);
@@ -45,7 +41,7 @@ void setup() {
 		if (Serial.available())  Serial1.write(Serial.read());
 		if (Serial1.available()) Serial.write(Serial1.read());
 	}*/
-	RtttlPlayer.begin(SOUND_PIN, song); 
+	SoundManager.playInitSound();
 }
 
 boolean isSetupMode = false;
@@ -66,7 +62,7 @@ void routineProcess()
 				isSetupMode = true;
 			}
 		}
-		RtttlPlayer.play();
+		SoundManager.performPlayAction();
 	}
 	counter++;
 }

@@ -84,9 +84,15 @@ void ReadDataOfIdsState::process() {
 		switch (STATE_OF_BUILDS) 
 		{
 
-		case SUCCESS: lightStrategy = new BuildsSuccessLightStrategy(); break;
+		case SUCCESS: 
+			lightStrategy = new BuildsSuccessLightStrategy();
+			SoundManager.playGoodSound();
+			break;
 
-		case FAILED: lightStrategy = new BuildsFailedLightStrategy(); break;
+		case FAILED: 
+			lightStrategy = new BuildsFailedLightStrategy();
+			SoundManager.playBadSound();
+			break;
 
 		case FAILED_AND_RUNNING: lightStrategy = new BuildsFailedAndRunningLightStrategy(); break;
 
@@ -149,15 +155,6 @@ byte ReadDataOfIdsState::handleIDStatus() {
 									STATE_OF_BUILDS = FAILED_AND_RUNNING;
 								}
 							}
-						}
-					}
-					if (SystemConfig.isDebugMode())
-					{
-						String status = F("status ");
-
-						Serial.print(status); Serial.print((*dataParser->getResultData()[0][0])); Serial.print(F(" ")); Serial.println((*dataParser->getResultData()[1][0]));
-						if (2 == countValue) {
-							Serial.print(status); Serial.print((*dataParser->getResultData()[0][1])); Serial.print(F(" ")); Serial.println((*dataParser->getResultData()[1][1]));
 						}
 					}
 				}

@@ -10,6 +10,7 @@
 #endif
 
 #include "SystemState.h"
+#include "SoundManager.h"
 
 #define SUCCESS 1
 #define FAILED 2

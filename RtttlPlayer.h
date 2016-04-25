@@ -103,7 +103,7 @@
 #define NOTE_DS8 4978
 
 //#define isdigit(n) (n >= '0' && n <= '9')
-#define OCTAVE_OFFSET 0
+#define OCTAVE_OFFSET -1
 
 //if notes are not already defined
 #endif
