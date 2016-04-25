@@ -100,6 +100,8 @@ extern "C" void __cxa_pure_virtual() {;}
 #include <..\BuildsTrafficLight\RtttlPlayer.h>
 #include <..\BuildsTrafficLight\SystemConfig.cpp>
 #include <..\BuildsTrafficLight\SystemConfig.h>
+#include <..\BuildsTrafficLight\SystemMenu.cpp>
+#include <..\BuildsTrafficLight\SystemMenu.h>
 #include <..\BuildsTrafficLight\SystemState.cpp>
 #include <..\BuildsTrafficLight\SystemState.h>
 #include <..\BuildsTrafficLight\SystemUtils.cpp>

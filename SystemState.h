@@ -24,10 +24,10 @@ public:
 	unsigned long getDelayAfterProcessState() { return delayMs;  }; // delay want need after process method was performedprotected:
 
 protected:
-	unsigned long delayMs = 0;
+	unsigned long delayMs = 10;
 	
-	BasicLightStrategy* lightStrategy;
-	SystemState* nextState;
+	BasicLightStrategy* lightStrategy = 0;
+	SystemState* nextState = 0;
 
 	byte MAX_REPEATS = 0;
 	byte countOfRepeats = 0;

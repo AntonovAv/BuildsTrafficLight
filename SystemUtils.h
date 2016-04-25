@@ -9,6 +9,8 @@
 	#include "WProgram.h"
 #endif
 
+#include "eeprom.h"
+
 #define xstr(s) str(s)
 #define str(s) #s
 
@@ -33,7 +35,7 @@
 #define CONNECTION_TIME_OUT 10000 // 10 sec
 
 #define BUILD_TYPES_URL "/guestAuth/app/rest/buildTypes/"
-#define BUILD_STATE_URL "id:#/builds/?locator=count:2,running:any"
+#define BUILD_STATE_URL "/guestAuth/app/rest/buildTypes/id:#/builds/?locator=count:2,running:any"
 #define ID_PLACEHOLDER "#"
 
 #define RED_PIN 11

@@ -183,10 +183,10 @@ void DataReader_::initRead(boolean isNeedHeader) {
 	content_length = 0;
 	tempHeader = new String;
 
-	CHUNKED_TEMPLATE = String(F("chunked"));
-	IPD_COM_TEMPLATE = String(F("+IPD,"));
-	END_OF_HEADER_TEMPLATE = String(F("\r\n\r\n"));
-	CONTENT_LEN_TEMPLATE = String(F("Content-Length: "));
+	CHUNKED_TEMPLATE = F("chunked");
+	IPD_COM_TEMPLATE = F("+IPD,");
+	END_OF_HEADER_TEMPLATE = F("\r\n\r\n");
+	CONTENT_LEN_TEMPLATE = F("Content-Length: ");
 }
 
 DataReader_::DataReader_(boolean saveHeader) {

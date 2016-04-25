@@ -6,13 +6,6 @@
 
 ResetModuleState::ResetModuleState() {
 	nextState = new ReadIdsState();
-
-	delayMs = 1;
-
-	MAX_REPEATS = 0;
-	countOfRepeats = 0;
-
-	lightStrategy = 0;
 }
 ResetModuleState::~ResetModuleState() {
 	

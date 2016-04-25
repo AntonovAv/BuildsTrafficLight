@@ -93,20 +93,23 @@
     <ClInclude Include="ReconnectToWiFiState.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="SystemConfig.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="TestLightStrategy.h">
       <Filter>Header Files\lightingStrategies</Filter>
     </ClInclude>
     <ClInclude Include="RtttlPlayer.h">
       <Filter>Header Files\utils</Filter>
     </ClInclude>
+    <ClInclude Include="__vm\.BuildTrafficLight.vsarduino.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="SystemConfig.h">
+      <Filter>Header Files\utils</Filter>
+    </ClInclude>
+    <ClInclude Include="SystemMenu.h">
+      <Filter>Header Files\utils</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="BasicLightStrategy.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="LightTrafficSystem.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -161,13 +164,19 @@
     <ClCompile Include="ReconnectToWiFiState.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="SystemConfig.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="TestLightStrategy.cpp">
       <Filter>Source Files\lightingStrategies</Filter>
     </ClCompile>
     <ClCompile Include="RtttlPlayer.cpp">
+      <Filter>Source Files\utils</Filter>
+    </ClCompile>
+    <ClCompile Include="BasicLightStrategy.cpp">
+      <Filter>Source Files\lightingStrategies</Filter>
+    </ClCompile>
+    <ClCompile Include="SystemMenu.cpp">
+      <Filter>Source Files\utils</Filter>
+    </ClCompile>
+    <ClCompile Include="SystemConfig.cpp">
       <Filter>Source Files\utils</Filter>
     </ClCompile>
   </ItemGroup>

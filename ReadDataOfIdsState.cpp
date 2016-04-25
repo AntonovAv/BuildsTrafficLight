@@ -2,7 +2,6 @@
 // 
 // 
 
-#include "eeprom.h"
 #include "ReadIdsState.h"
 #include "ReadDataOfIdsState.h"
 #include "BuildsFailedAndRunningLightStrategy.h"
@@ -14,13 +13,7 @@
 
 
 ReadDataOfIdsState::ReadDataOfIdsState() {
-	delayMs = 3000;
-
 	MAX_REPEATS = 4;
-	countOfRepeats = 0;
-
-	nextState = 0;
-	lightStrategy = 0;
 }
 
 ReadDataOfIdsState::~ReadDataOfIdsState() {
@@ -43,8 +36,8 @@ void ReadDataOfIdsState::process() {
 			
 			currentAddress = SystemUtils.readFromEEPROMToString(currentAddress, 0, currentID);
 
-			String request = String(F(BUILD_TYPES_URL)) + String(F(BUILD_STATE_URL));
-			request.replace(F(ID_PLACEHOLDER), currentID);
+			String request =  F(BUILD_STATE_URL);
+			request.replace(ID_PLACEHOLDER, currentID);
 
 			if (WifiUtils.prepareRequest(request))
 			{
@@ -85,11 +78,11 @@ void ReadDataOfIdsState::process() {
 	if (respStatus == NO_ERRORS) {
 
 		delayMs = 5000; // msec if all good
-
 		nextState = new ReadIdsState();
 
 		// change light strategy
-		switch (STATE_OF_BUILDS) {
+		switch (STATE_OF_BUILDS) 
+		{
 
 		case SUCCESS: lightStrategy = new BuildsSuccessLightStrategy(); break;
 
@@ -104,9 +97,7 @@ void ReadDataOfIdsState::process() {
 		SystemUtils.printError(respStatus);
 
 		if (countOfRepeats < MAX_REPEATS) {
-
 			countOfRepeats++;
-			nextState = 0;
 		}
 		else {
 			nextState = new ReconnectToWiFiState(); 
@@ -123,35 +114,9 @@ byte ReadDataOfIdsState::handleIDStatus() {
 
 	DataReader_* dataReader = new DataReader_(false);
 	JSONDataParser_* dataParser = new JSONDataParser_(tokens, 3, lengths);
-
-	int time = CONNECTION_TIME_OUT; // time for wait while data are reading (1200)
 	
-	boolean breaker = false;
-
-	while (time > 0) {
-		while (Serial1.available() > 0) {
-			
-			char c = Serial1.read();
-			boolean isEndChar = dataReader->handleNextChar(c);
-
-			if (SKIP_CHAR != c) {
-
-				dataParser->parseNextChar(c);
-			}
-			if (true == isEndChar) {
-				breaker = true;
-				break; // leave inner loop
-			}
-			
-		}
-		if (true == breaker) {
-			break; // leave outer looop
-		}
-		time -= 1;
-		delay(1);
-	}
-	if (false == breaker) {
-		responceStatus = CONNECTION_TIME_OUT;
+	if (false == WifiUtils.readData(dataReader, dataParser)) {
+		responceStatus = TIME_OUT_ERROR;
 	}
 	else {
 		byte countValue = 0; // if for config there is info for only one build
@@ -171,7 +136,7 @@ byte ReadDataOfIdsState::handleIDStatus() {
 					/* if first  failure - faild and finish
 					if second - failure, and current - runnig - Faild and finish and read other configs
 					*/
-					String failTmpl = String(F("FAILURE"));
+					String failTmpl = F("FAILURE");
 
 					if ((*dataParser->getResultData()[0][0]).equalsIgnoreCase(failTmpl)) {
 						STATE_OF_BUILDS = FAILED;
@@ -188,7 +153,7 @@ byte ReadDataOfIdsState::handleIDStatus() {
 					}
 					if (SystemConfig.isDebugMode())
 					{
-						String status = String(F("status"));
+						String status = F("status ");
 
 						Serial.print(status); Serial.print((*dataParser->getResultData()[0][0])); Serial.print(F(" ")); Serial.println((*dataParser->getResultData()[1][0]));
 						if (2 == countValue) {

@@ -11,10 +11,10 @@
 #include <EEPROM.h>
 
 #define TRAFFIC_LIGHT_PARAMS_EEPROM_ADDR 0 // lenght 1+1+1 = 3 bytes
-#define BUILD_SERVER_PARAMS_EEPROM_ADDR 3 //lenght 4 + 4 bytes
-#define SOUND_PARAMS_EEPROM_ADDR 11 // lenght 1 byte
-#define DEBUG_MODE_EEPROM_ADDR 12 // lenght 1 byte
-#define WIFI_PARAMS_EEPROM_ADDR 13 // lenght 64 bytes
+#define BUILD_SERVER_PARAMS_EEPROM_ADDR 3 //lenght 15 + 4 = 19 bytes
+#define SOUND_PARAMS_EEPROM_ADDR 21 // lenght 1 byte
+#define DEBUG_MODE_EEPROM_ADDR 22 // lenght 1 byte
+#define WIFI_PARAMS_EEPROM_ADDR 23 // lenght 64 bytes
 
 // in percents 
 struct TrafficLightBrightness
@@ -32,7 +32,7 @@ struct WiFiParams
 
 struct BuildServerParams
 {
-	byte ip[4]; //127.0.0.1 for example
+	char ip[15];// byte ip[4]; //127.0.0.1 for example (255.255.255.255)
 	unsigned int port;
 };
 

@@ -74,7 +74,7 @@ boolean WifiModuleUtils::connectTCP()
 	BuildServerParams bsParams = SystemConfig.getBuildServerParams();
 	clearInputBuffer();
 	moduleStream->print(F("AT+CIPSTART=\"TCP\",\""));
-	moduleStream->print(getFormatedHostIp(bsParams.ip));
+	moduleStream->print(bsParams.ip);
 	moduleStream->print(F("\","));
 	moduleStream->println(bsParams.port);
 
@@ -91,7 +91,7 @@ boolean WifiModuleUtils::closeTCP()
 boolean WifiModuleUtils::prepareRequest(String & request)
 {
 	clearInputBuffer();
-	request = String(F("GET ")) + request + String(F(" HTTP/1.1\r\nHost: ")) + getFormatedHostIp(SystemConfig.getBuildServerParams().ip) + String(F("\r\nAccept: application/json\r\n\r\n"));
+	request = "GET " + request + " HTTP/1.1\r\nHost: " + SystemConfig.getBuildServerParams().ip + "\r\nAccept: application/json\r\n\r\n";
 	moduleStream->print(F("AT+CIPSEND="));
 	moduleStream->println(request.length());
 
@@ -101,6 +101,37 @@ boolean WifiModuleUtils::prepareRequest(String & request)
 void WifiModuleUtils::sendRequest(const String & request)
 {
 	moduleStream->print(request);
+}
+
+boolean WifiModuleUtils::readData(DataReader_ * dataReader, JSONDataParser_ * dataParser)
+{
+	int time = CONNECTION_TIME_OUT; // time for wait while data are reading (1200)
+
+	boolean breaker = false;
+
+	while (time > 0) {
+		while (moduleStream->available() > 0) {
+
+			char c = moduleStream->read();
+			boolean isEndChar = dataReader->handleNextChar(c);
+
+			if (SKIP_CHAR != c) {
+
+				dataParser->parseNextChar(c);
+			}
+			if (true == isEndChar) {
+				breaker = true;
+				break; // leave inner loop
+			}
+
+		}
+		if (true == breaker) {
+			break; // leave outer looop
+		}
+		time -= 1;
+		delay(1);
+	}
+	return breaker;
 }
 
 boolean WifiModuleUtils::findModuleResp(const String & strForFind, int timeOut)
@@ -118,10 +149,4 @@ void WifiModuleUtils::clearInputBuffer(int timeout)
 {
 	moduleStream->setTimeout(timeout);
 	moduleStream->readString();
-}
-
-String WifiModuleUtils::getFormatedHostIp(byte * rawIp)
-{
-	String dot = String(F("."));
-	return rawIp[0] + dot + rawIp[1] + dot + rawIp[2] + dot + rawIp[3];
 }

@@ -9,12 +9,7 @@
 #include "ReadIdsState.h"
 
 BuildServerCheckingState::BuildServerCheckingState() {
-	delayMs = 1000; 
-	countOfRepeats = 0;
 	MAX_REPEATS = 5;
-
-	nextState = 0;
-	lightStrategy = 0;
 }
 
 BuildServerCheckingState::~BuildServerCheckingState() 
@@ -44,9 +39,6 @@ void BuildServerCheckingState::process() {
 	}
 
 	if (respStatus == NO_ERRORS) {
-		delayMs = 0; // if all good
-
-		lightStrategy = 0;
 		nextState = new ReadIdsState();
 	}
 	else {
@@ -58,13 +50,11 @@ void BuildServerCheckingState::process() {
 		}
 		else
 		{
-			lightStrategy = new BuildServerRequestErrorLightStrategy();
+			lightStrategy = new BuildServerRequestErrorLightStrategy(); //todo need to impelment checking in todo that placed upper
 		}
 
 		if (countOfRepeats < MAX_REPEATS) {
-
 			countOfRepeats++;
-			nextState = 0;
 		}
 		else {
 			nextState = new ResetModuleState();

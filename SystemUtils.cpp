@@ -3,7 +3,6 @@
 // 
 
 #include "SystemUtils.h"
-#include "eeprom.h"
 
 int SystemUtils_::freeRam() {
 	extern int __heap_start, *__brkval;

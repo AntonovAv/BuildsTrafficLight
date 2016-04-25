@@ -8,13 +8,7 @@
 #include "WiFiConnectionErrorLightStrategy.h"
 
 ReconnectToWiFiState::ReconnectToWiFiState() {
-	
-	delayMs = 0; // default
 	MAX_REPEATS = 5;// try to connect if not success -> reset module
-	countOfRepeats = 0;
-
-	lightStrategy = 0;
-	nextState = 0;
 }
 
 ReconnectToWiFiState::~ReconnectToWiFiState() 
@@ -26,9 +20,6 @@ void ReconnectToWiFiState::process() {
 	WifiUtils.softReset();
 
 	if (WifiUtils.connectToAP()) {
-		delayMs = 0;
-		lightStrategy = 0; //save prev
-
 		nextState = new BuildServerCheckingState();
 	}
 	else {

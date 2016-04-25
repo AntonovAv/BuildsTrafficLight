@@ -26,8 +26,6 @@ public:
 
 private:
 
-	void extendResultsArray(int nOfToken, byte n);
-
 	String* tokensForFind;
 	byte* resultLengths;
 	byte* maxDataLengths;

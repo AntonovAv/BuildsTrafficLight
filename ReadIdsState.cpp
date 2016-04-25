@@ -9,12 +9,7 @@
 #include "JSONDataParser.h"
 
 ReadIdsState::ReadIdsState() {
-	delayMs = 1;
 	MAX_REPEATS = 3;
-	countOfRepeats = 0;
-
-	nextState = 0;
-	lightStrategy = 0;
 }
 
 ReadIdsState::~ReadIdsState()
@@ -29,7 +24,7 @@ void ReadIdsState::process() {
 
 	if (WifiUtils.connectTCP())
 	{
-		String request = String(F(BUILD_TYPES_URL));
+		String request = F(BUILD_TYPES_URL);
 		if (WifiUtils.prepareRequest(request))
 		{
 			WifiUtils.sendRequest(request);
@@ -49,9 +44,6 @@ void ReadIdsState::process() {
 	}
 
 	if (respStatus == NO_ERRORS) {
-
-		delayMs = 1; // if all good 
-
 		nextState = new ReadDataOfIdsState();
 	}
 	else {
@@ -59,12 +51,10 @@ void ReadIdsState::process() {
 
 		if (countOfRepeats < MAX_REPEATS) {
 			countOfRepeats++;
-			nextState = 0;
 		}
 		else {
 			nextState = new ReconnectToWiFiState();
 		}
-
 	}
 }
 
@@ -77,32 +67,8 @@ byte ReadIdsState::readIds() {
 	DataReader_* dataReader = new DataReader_(false);
 	JSONDataParser_* dataParser = new JSONDataParser_(tokens, 2, lengths);
 
-	int time = CONNECTION_TIME_OUT;
-	boolean breaker = false;
-
-	while (time > 0) {
-		while (Serial1.available() > 0) {
-			char c = Serial1.read();
-			boolean isEndChar = dataReader->handleNextChar(c);
-
-			if (SKIP_CHAR != c) {
-				dataParser->parseNextChar(c);
-			}
-
-			if (isEndChar == true) {
-				breaker = true;
-				break;
-			}
-		}
-		if (true == breaker) {
-			break;
-		}
-		time -= 1;
-		delay(1);
-	}
-
-	if (false == breaker) {
-		responceStatus = CONNECTION_TIME_OUT;
+	if (false == WifiUtils.readData(dataReader, dataParser)) {
+		responceStatus = TIME_OUT_ERROR;
 	}
 	else {
 		responceStatus = READ_CONFIG_IDS_ERROR;
