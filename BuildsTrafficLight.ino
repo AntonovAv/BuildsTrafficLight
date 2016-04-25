@@ -1,3 +1,4 @@
+#include <EEPROM.h>
 #include "SystemMenu.h"
 #include "RtttlPlayer.h"
 #include "TestLightStrategy.h"
@@ -14,7 +15,9 @@
 
 LightTrafficSystem system = LightTrafficSystem(new ReadIdsState(), new InitSystemLightStrategy());
 
-const char song[] = "smbdeath:d=4,o=5,b=90:32c6,32c6,32c6,8p,16b,16f6,16p,16f6,16f.6,16e.6,16d6,16c6,16p,16e,16p,16c";
+const PROGMEM char song[] = "smbdeath:d=4,o=5,b=90:32c6,32c6,32c6,8p,16b,16f6,16p,16f6,16f.6,16e.6,16d6,16c6,16p,16e,16p,16c";
+const PROGMEM char song3[] = "smbdeath:d=4,o=5,b=90:32c6,32c6,32c6,8p,16b,16f6,16p,16f6,16f.6,16e.6,16d6,16c6,16p,16e,16p,16c";
+const PROGMEM char song2[] = "smbdeath:d=4,o=5,b=90:32c6,32c6,32c6,8p,16b,16f6,16p,16f6,16f.6,16e.6,16d6,16c6,16p,16e,16p,16c";
 
 void setup() {
 	pinMode(SOUND_PIN, OUTPUT); // speaker

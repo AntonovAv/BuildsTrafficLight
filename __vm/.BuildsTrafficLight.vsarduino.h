@@ -13,7 +13,7 @@
 #define __AVR_ATmega32u4__
 #define __AVR_ATmega32U4__
 #define F_CPU 16000000L
-#define ARDUINO 10607
+#define ARDUINO 10605
 #define ARDUINO_AVR_LEONARDO
 #define ARDUINO_ARCH_AVR
 #define USB_VID 0x2341
