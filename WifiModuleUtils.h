@@ -11,6 +11,8 @@
 
 #include "SystemUtils.h"
 #include "SystemConfig.h"
+#include "JSONDataParser.h"
+#include "DataReader.h"
 
 #define ESP_RECEIVE_RESPONCE_TIMEOUT   1000L
 #define ESP_RESET_TIMEOUT     5000L
@@ -31,14 +33,14 @@ public:
 	boolean hardReset();
 
 	boolean connectTCP();
-	boolean prepareRequest(String &request);
+	boolean prepareRequest(String& request);
 	void sendRequest(const String& request);
+	boolean readData(DataReader_* dataReader, JSONDataParser_* dataParser);
 	boolean closeTCP();
 
 	boolean findModuleResp(const String& strForFind, int timeOut = ESP_RECEIVE_RESPONCE_TIMEOUT);
 	void clearInputBuffer(int timeout = 100);
 private:
-	String getFormatedHostIp(byte* rawIp);
 	Stream* moduleStream = &Serial1;
 };
 
