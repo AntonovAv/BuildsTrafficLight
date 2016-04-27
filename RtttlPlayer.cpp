@@ -31,9 +31,7 @@ void RtttlPlayerClass::begin(byte iPin, const char * songBuffer)
 	//stop current note
 	noTone(pin);
 
-	//read buffer until first note
 	int num;
-
 	// format: d=N,o=N,b=NNN:
 	// find the start (skip name, etc)
 
@@ -43,36 +41,27 @@ void RtttlPlayerClass::begin(byte iPin, const char * songBuffer)
 								  // get default duration
 	if (READ_BUFF_CHAR == 'd')
 	{
-		bufferIndex += 2;             // skip "d="
-		num = 0;
-		while (isdigit(READ_BUFF_CHAR))
+		num = readParamValueFromBuffer();
+		if (num > 0) 
 		{
-			num = (num * 10) + (READ_BUFF_CHAR_AND_SHIFT - '0');
+			default_dur = num;
 		}
-		if (num > 0) default_dur = num;
-		bufferIndex++;                   // skip comma
 	}
 
 	// get default octave
 	if (READ_BUFF_CHAR == 'o')
 	{
-		buffer += 2;              // skip "o="
-		num = READ_BUFF_CHAR_AND_SHIFT - '0';
-		if (num >= 3 && num <= 7) default_oct = num;
-		bufferIndex++;                   // skip comma
+		num = readParamValueFromBuffer();
+		if (num >= 3 && num <= 7)
+		{
+			default_oct = num;
+		}
 	}
 
 	// get BPM
 	if (READ_BUFF_CHAR == 'b')
 	{
-		buffer += 2;              // skip "b="
-		num = 0;
-		while (isdigit(READ_BUFF_CHAR))
-		{
-			num = (num * 10) + (READ_BUFF_CHAR_AND_SHIFT - '0');
-		}
-		bpm = num;
-		bufferIndex++;                   // skip colon
+		bpm = readParamValueFromBuffer();
 	}
 
 	// BPM usually expresses the number of quarter notes per minute
@@ -227,4 +216,17 @@ void RtttlPlayerClass::nextnote()
 		noteDelay = millis() + (duration);
 	}
 	return;
+}
+
+int RtttlPlayerClass::readParamValueFromBuffer()
+{
+	//read buffer until first note
+	int num = 0;
+	buffer += 2;              // skip name and "="
+	while (isdigit(READ_BUFF_CHAR))
+	{
+		num = (num * 10) + (READ_BUFF_CHAR_AND_SHIFT - '0');
+	}
+	bufferIndex++;                   // skip colon
+	return num;
 }

@@ -152,10 +152,10 @@ public:
 	*   the given RTTTL song.
 	****************************************************************************/
 	boolean done();
-
 private:
 
 	void nextnote();
+	int readParamValueFromBuffer();
 
 	const char* buffer;
 	int bufferIndex;

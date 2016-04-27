@@ -20,8 +20,7 @@ void ResetModuleState::process() {
 	digitalWrite(MODULE_RESET_PIN, HIGH);
 	delay(1000);
 
-	Serial.setTimeout(1000);
-	Serial1.readString(); // read resp from module
+	WifiUtils.clearInputBuffer(1000); // read resp from module
 
 	WifiUtils.softReset();
 }

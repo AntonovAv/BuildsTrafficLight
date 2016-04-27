@@ -47,11 +47,13 @@ void setup() {
 boolean isSetupMode = false;
 
 long counter = 0;
+volatile boolean processLock = false;
+
 void routineProcess()
 {
-	if (counter > FAST_TIMER_TICKS_IN_1SEC / MAIN_TIMER_TICKS_IN_1SEC)
+	if (false == processLock && (counter > FAST_TIMER_TICKS_IN_1SEC / MAIN_TIMER_TICKS_IN_1SEC))
 	{
-		//Timer1.detachInterrupt();
+		processLock = true;
 		
 		if (isSetupMode != true)
 		{
@@ -65,8 +67,8 @@ void routineProcess()
 		}
 		SoundManager.performPlayAction();
 
-		//Timer1.attachInterrupt(routineProcess);
 		counter = 0;
+		processLock = false;
 	}
 	counter++;
 }
