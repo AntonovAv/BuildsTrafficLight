@@ -103,7 +103,10 @@
 #define NOTE_DS8 4978
 
 //#define isdigit(n) (n >= '0' && n <= '9')
-#define OCTAVE_OFFSET -1
+#define OCTAVE_OFFSET 0
+
+#define READ_BUFF_CHAR pgm_read_byte_near(buffer + bufferIndex)
+#define READ_BUFF_CHAR_AND_SHIFT pgm_read_byte_near(buffer + bufferIndex++)
 
 //if notes are not already defined
 #endif
@@ -154,8 +157,8 @@ private:
 
 	void nextnote();
 
-	const char * buffer = "";
-	int bufferIndex = -32760;
+	const char* buffer;
+	int bufferIndex;
 	byte default_dur = 4;
 	byte default_oct = 5;
 	int bpm = 63;

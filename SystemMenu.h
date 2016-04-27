@@ -12,6 +12,7 @@
 #include "SystemConfig.h"
 #include "WifiModuleUtils.h"
 #include "TestLightStrategy.h"
+#include "SoundManager.h"
 
 class SystemMenuClass
 {

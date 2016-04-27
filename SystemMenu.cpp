@@ -49,6 +49,7 @@ void SystemMenuClass::processMenu()
 			if (input.startsWith(soundCmd))
 			{
 				setSoundParams(input);
+				SoundManager.playSoundOnSound();
 			}
 			if (input.startsWith(ledBrCmd))
 			{

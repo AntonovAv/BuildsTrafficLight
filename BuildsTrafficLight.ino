@@ -51,7 +51,8 @@ void routineProcess()
 {
 	if (counter > FAST_TIMER_TICKS_IN_1SEC / MAIN_TIMER_TICKS_IN_1SEC)
 	{
-		counter = 0;
+		//Timer1.detachInterrupt();
+		
 		if (isSetupMode != true)
 		{
 			system.lighting();
@@ -63,6 +64,9 @@ void routineProcess()
 			}
 		}
 		SoundManager.performPlayAction();
+
+		//Timer1.attachInterrupt(routineProcess);
+		counter = 0;
 	}
 	counter++;
 }
@@ -72,8 +76,6 @@ void loop() {
 	{
 		SystemUtils.printFreeMemory();
 	}
-	// process current state of system (main process)
-	system.process();
 
 	if (isSetupMode == true)
 	{
@@ -82,4 +84,7 @@ void loop() {
 		isSetupMode = false;
 		delete smc;
 	}
+
+	// process current state of system (main process)
+	system.process();
 }

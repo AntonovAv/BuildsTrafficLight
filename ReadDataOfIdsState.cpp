@@ -44,8 +44,7 @@ void ReadDataOfIdsState::process() {
 				// debug
 				if (SystemConfig.isDebugMode())
 				{
-					Serial.println(F("--req--")); Serial.print(request); Serial.println(F("--end--"));
-					Serial.print(F("id: ")); Serial.println(currentID);
+					Serial.println(F("--req--")); Serial.print(request);
 				}
 				WifiUtils.sendRequest(request);
 

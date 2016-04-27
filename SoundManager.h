@@ -23,8 +23,10 @@ public:
 	void playGoodSound();
 	void playBadSound();
 	void playInitSound();
+	void playSoundOnSound();
 	void performPlayAction();
 private:
+	void playSound(const char* sound);
 	byte prevSoundType = INIT_SOUND;
 };
 
