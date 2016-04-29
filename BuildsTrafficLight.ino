@@ -58,8 +58,8 @@ void routineProcess()
 		if (isSetupMode != true)
 		{
 			system.lighting();
-			system.checkAliveOfSystem();
-			
+			// system.checkAliveOfSystem();  TODO: maybe need to delete this method
+
 			if (Serial.available())
 			{
 				isSetupMode = true;

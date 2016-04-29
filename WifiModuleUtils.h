@@ -14,7 +14,7 @@
 #include "JSONDataParser.h"
 #include "DataReader.h"
 
-#define ESP_RECEIVE_RESPONCE_TIMEOUT   1000L
+#define ESP_RECEIVE_RESPONCE_TIMEOUT   1500L
 #define ESP_RESET_TIMEOUT     5000L
 #define ESP_CONNECT_AP_TIMEOUT  10000L
 

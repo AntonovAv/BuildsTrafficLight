@@ -113,6 +113,7 @@ boolean WifiModuleUtils::readData(DataReader_ * dataReader, JSONDataParser_ * da
 		while (moduleStream->available() > 0) {
 
 			char c = moduleStream->read();
+			//Serial.print(c);
 			boolean isEndChar = dataReader->handleNextChar(c);
 
 			if (SKIP_CHAR != c) {
@@ -140,6 +141,7 @@ boolean WifiModuleUtils::findModuleResp(const String & strForFind, int timeOut)
 	char* temp = new char[strLen + 1];
 	strForFind.toCharArray(temp, strLen + 1);
 	moduleStream->setTimeout(timeOut);
+	//Serial.println(temp);
 	boolean isFounded = moduleStream->find(temp, strLen);
 	delete[] temp;
 	return isFounded;
