@@ -150,5 +150,9 @@ boolean WifiModuleUtils::findModuleResp(const String & strForFind, int timeOut)
 void WifiModuleUtils::clearInputBuffer(int timeout)
 {
 	moduleStream->setTimeout(timeout);
-	moduleStream->readString();
+	String trash = moduleStream->readString();
+	if (SystemConfig.isDebugMode())
+	{
+		Serial.println(trash);
+	}
 }
