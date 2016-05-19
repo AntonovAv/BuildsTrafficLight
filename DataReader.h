@@ -29,8 +29,8 @@ public:
 private:
 
 	unsigned int hexToDec(String &hexString);
-	char handleNextCharWithIPD(char &c);
-	char handleNextCharWithChunked(char &c);
+	char handleNextCharWithIPD(char c);
+	char handleNextCharWithChunked(char c);
 
 	String lastResponseHeader;
 	String* tempHeader;

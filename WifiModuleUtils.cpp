@@ -51,22 +51,20 @@ void WifiModuleUtils::printAvailableAPs()
 	}
 }
 
-boolean WifiModuleUtils::softReset()
+boolean WifiModuleUtils::reset()
 {
-	boolean found = true;
+	// hard reset of wifi module
+	digitalWrite(MODULE_RESET_PIN, LOW);
+	delay(100);
+	digitalWrite(MODULE_RESET_PIN, HIGH);
+	delay(1000);
+	WifiUtils.clearInputBuffer(1000); // read resp from module
 
-	moduleStream->println(F("AT+RST"));  // Issue soft-reset command
-	found &= findModuleResp(F("ready"), ESP_RESET_TIMEOUT);  // Wait for boot message
+	//moduleStream->println(F("AT+RST"));  // Issue soft-reset command
+	//boolean found = findModuleResp(F("ready"), ESP_RESET_TIMEOUT);  // Wait for boot message
 
 	moduleStream->println(F("ATE0"));       // Turn off echo
-	found &= findModuleResp(F("OK"));        // OK?
-
-	return found;
-}
-
-boolean WifiModuleUtils::hardReset()
-{
-	return boolean();
+	return findModuleResp(F("OK"));        // OK?
 }
 
 boolean WifiModuleUtils::connectTCP()
@@ -78,7 +76,7 @@ boolean WifiModuleUtils::connectTCP()
 	moduleStream->print(F("\","));
 	moduleStream->println(bsParams.port);
 
-	return findModuleResp(F("OK"), 2000);
+	return findModuleResp(F("OK"), 4000);
 }
 
 boolean WifiModuleUtils::closeTCP()
@@ -94,18 +92,18 @@ boolean WifiModuleUtils::prepareRequest(String & request)
 	request = "GET " + request + " HTTP/1.1\r\nHost: " + SystemConfig.getBuildServerParams().ip + "\r\nAccept: application/json\r\n\r\n";
 	moduleStream->print(F("AT+CIPSEND="));
 	moduleStream->println(request.length());
-
 	return findModuleResp(F("OK")) && findModuleResp(F("> "));
 }
 
 void WifiModuleUtils::sendRequest(const String & request)
 {
 	moduleStream->print(request);
+	//findModuleResp(F("SEND OK"));
 }
 
 boolean WifiModuleUtils::readData(DataReader_ * dataReader, JSONDataParser_ * dataParser)
 {
-	int time = CONNECTION_TIME_OUT; // time for wait while data are reading (1200)
+	int time = CONNECTION_TIME_OUT; 
 
 	boolean breaker = false;
 
@@ -119,6 +117,7 @@ boolean WifiModuleUtils::readData(DataReader_ * dataReader, JSONDataParser_ * da
 			if (SKIP_CHAR != c) {
 
 				dataParser->parseNextChar(c);
+				//Serial.print(c);
 			}
 			if (true == isEndChar) {
 				breaker = true;
@@ -141,7 +140,7 @@ boolean WifiModuleUtils::findModuleResp(const String & strForFind, int timeOut)
 	char* temp = new char[strLen + 1];
 	strForFind.toCharArray(temp, strLen + 1);
 	moduleStream->setTimeout(timeOut);
-	//Serial.println(temp);
+	//Serial.println(moduleStream->readString());
 	boolean isFounded = moduleStream->find(temp, strLen);
 	delete[] temp;
 	return isFounded;

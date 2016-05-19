@@ -5,7 +5,7 @@
 #include "DataReader.h"
 
 
-char DataReader_::handleNextCharWithIPD(char &c) {
+char DataReader_::handleNextCharWithIPD(char c) {
 	switch (state) {
 		// find marker to read lenght of part of message
 	case FIND_LEN:
@@ -48,7 +48,7 @@ char DataReader_::handleNextCharWithIPD(char &c) {
 	return SKIP_CHAR;
 }
 
-char DataReader_::handleNextCharWithChunked(char &c) {
+char DataReader_::handleNextCharWithChunked(char c) {
 	switch (chunkedState) {
 
 	case READ_CHUNKED_LEN:
@@ -83,14 +83,15 @@ char DataReader_::handleNextCharWithChunked(char &c) {
 }
 
 boolean DataReader_::handleNextChar(char &c) {
-	c = handleNextCharWithIPD(c);
-	if (SKIP_CHAR == c) {
+	char notIpdChar = handleNextCharWithIPD(c);
+	if (SKIP_CHAR == notIpdChar) {
+		c = SKIP_CHAR;
 		return false;
 	}
 
 	if (false == isReadHeader) { // if not read header
-		(*tempHeader) += c;
-		if (END_OF_HEADER_TEMPLATE.charAt(char_count) == c) {
+		(*tempHeader) += notIpdChar;
+		if (END_OF_HEADER_TEMPLATE.charAt(char_count) == notIpdChar) {
 			char_count += 1;
 			if (char_count == END_OF_HEADER_TEMPLATE.length()) {
 				char_count = 0;
@@ -124,14 +125,14 @@ boolean DataReader_::handleNextChar(char &c) {
 		}
 		else {
 			char_count = 0;
-			if (END_OF_HEADER_TEMPLATE.charAt(char_count) == c) {
+			if (END_OF_HEADER_TEMPLATE.charAt(char_count) == notIpdChar) {
 				char_count += 1;
 			}
 		}
 	}
 	else {
 		if (true == isChunked) { // if data encoding is chucked 
-			c = handleNextCharWithChunked(c);
+			c = handleNextCharWithChunked(notIpdChar);
 			if (c == CHUNKED_DATA_LAST_CHAR)
 			{
 				c = SKIP_CHAR;

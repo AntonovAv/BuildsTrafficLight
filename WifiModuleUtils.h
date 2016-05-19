@@ -29,8 +29,7 @@ public:
 	boolean disconnectAP();
 	void printAvailableAPs();
 
-	boolean softReset();
-	boolean hardReset();
+	boolean reset();
 
 	boolean connectTCP();
 	boolean prepareRequest(String& request);

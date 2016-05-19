@@ -17,8 +17,8 @@ ReconnectToWiFiState::~ReconnectToWiFiState()
 void ReconnectToWiFiState::process() {
 	Serial.println(F("---ReconnectToWiFiState---"));
 
-	WifiUtils.softReset();
-
+	WifiUtils.reset();
+	delay(1000);
 	if (true == WifiUtils.connectToAP()) {
 		nextState = new BuildServerCheckingState();
 	}

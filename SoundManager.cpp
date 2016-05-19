@@ -18,7 +18,7 @@ void SoundManagerClass::playGoodSound()
 {
 	if (prevSoundType != GOOD_SOUND)
 	{
-		RtttlPlayer.begin(SOUND_PIN, goodSong);
+		playSound(goodSong);
 		prevSoundType = GOOD_SOUND;
 	} 
 }
@@ -44,13 +44,14 @@ void SoundManagerClass::playSoundOnSound()
 
 void SoundManagerClass::performPlayAction()
 {
-	if (SystemConfig.getSoundParams().isOn == true)
-	{
-		RtttlPlayer.play();
-	}
+	RtttlPlayer.play();
 }
 
 void SoundManagerClass::playSound(const char * sound)
 {
-	RtttlPlayer.begin(SOUND_PIN, sound);
+	if (SystemConfig.getSoundParams().isOn == true) 
+	{
+		RtttlPlayer.begin(SOUND_PIN, sound);
+	}
+	
 }

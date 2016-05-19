@@ -9,7 +9,7 @@
 #include "JSONDataParser.h"
 
 ReadIdsState::ReadIdsState() {
-	MAX_REPEATS = 3;
+	MAX_REPEATS = 1;
 }
 
 ReadIdsState::~ReadIdsState()

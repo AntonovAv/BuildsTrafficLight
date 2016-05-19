@@ -26,22 +26,29 @@ void setup() {
 	//while (!Serial) {}
 	Serial1.begin(serialSpeed);
 
+	// uncomment for debug module loop
+	/*for (;;) {
+	if (Serial.available())  Serial1.write(Serial.read());
+	if (Serial1.available()) Serial.write(Serial1.read());
+	}*/
+
 	long oneSec = 1000000L;
 	Timer1.initialize(oneSec / FAST_TIMER_TICKS_IN_1SEC); // 1 sec/COEFF
+	Timer1.stop();
 	Timer1.pwm(RED_PIN, 0);
 	Timer1.pwm(YELLOW_PIN, 0);
 	Timer1.pwm(GREEN_PIN, 0);
 	Timer1.attachInterrupt(routineProcess);
+	Timer1.start();
 
 	SystemConfig.initFromEEPROM();// init system settings stored in eeprom
 
-	WifiUtils.softReset();
-
-	/*for (;;) {
-		if (Serial.available())  Serial1.write(Serial.read());
-		if (Serial1.available()) Serial.write(Serial1.read());
-	}*/
 	SoundManager.playInitSound();
+
+	WifiUtils.reset();
+	delay(1000);
+	WifiUtils.connectToAP();
+
 }
 
 boolean isSetupMode = false;
@@ -59,11 +66,6 @@ void routineProcess()
 		{
 			system.lighting();
 			// system.checkAliveOfSystem();  TODO: maybe need to delete this method
-
-			if (Serial.available())
-			{
-				isSetupMode = true;
-			}
 		}
 		SoundManager.performPlayAction();
 
@@ -77,6 +79,11 @@ void loop() {
 	if (SystemConfig.isDebugMode())
 	{
 		SystemUtils.printFreeMemory();
+	}
+
+	if (Serial.available() > 0)
+	{
+		isSetupMode = true;
 	}
 
 	if (isSetupMode == true)

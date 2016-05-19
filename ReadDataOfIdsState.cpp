@@ -13,7 +13,7 @@
 
 
 ReadDataOfIdsState::ReadDataOfIdsState() {
-	MAX_REPEATS = 4;
+	MAX_REPEATS = 2;
 }
 
 ReadDataOfIdsState::~ReadDataOfIdsState() {

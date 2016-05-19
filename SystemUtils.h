@@ -44,7 +44,7 @@
 
 #define SOUND_PIN 5
 
-#define MAIN_TIMER_TICKS_IN_1SEC 10 // times is 1 sec
+#define MAIN_TIMER_TICKS_IN_1SEC 20 // times is 1 sec
 #define FAST_TIMER_TICKS_IN_1SEC 500 // determine frequency of pwm (adjusted for traffic light led lamps) need 500
 
 #define MODULE_RESET_PIN 2
