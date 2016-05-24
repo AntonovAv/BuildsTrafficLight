@@ -9,7 +9,7 @@
 #include "ReadIdsState.h"
 
 BuildServerCheckingState::BuildServerCheckingState() {
-	MAX_REPEATS = 5;
+	MAX_REPEATS = 2;
 }
 
 BuildServerCheckingState::~BuildServerCheckingState() 

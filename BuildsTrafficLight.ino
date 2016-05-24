@@ -64,7 +64,7 @@ void routineProcess()
 		
 		if (isSetupMode != true)
 		{
-			system.lighting();
+			system.lighting(); //TODO: need to move  lighting to another place (it freezes visual lighting)
 			// system.checkAliveOfSystem();  TODO: maybe need to delete this method
 		}
 		SoundManager.performPlayAction();
@@ -72,6 +72,7 @@ void routineProcess()
 		counter = 0;
 		processLock = false;
 	}
+
 	counter++;
 }
 
