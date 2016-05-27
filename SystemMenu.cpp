@@ -115,7 +115,7 @@ void SystemMenuClass::setHostParams(String& input)
 	int splitInd = input.indexOf(F(":"));
 	BuildServerParams bsParams;
 
-	input.substring(0, splitInd).toCharArray(bsParams.ip, 15);
+	input.substring(0, splitInd).toCharArray(bsParams.ip, 16);
 	bsParams.port = input.substring(splitInd + 1).toInt();
 
 	SystemConfig.updateBuildServerParams(bsParams);
