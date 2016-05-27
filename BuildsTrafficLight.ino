@@ -54,25 +54,30 @@ void setup() {
 boolean isSetupMode = false;
 
 long counter = 0;
+long counterTicksForLight = 0;
 volatile boolean processLock = false;
 
 void routineProcess()
 {
 	if (false == processLock && (counter > FAST_TIMER_TICKS_IN_1SEC / MAIN_TIMER_TICKS_IN_1SEC))
 	{
-		processLock = true;
-		
-		if (isSetupMode != true)
-		{
-			system.lighting(); //TODO: need to move  lighting to another place (it freezes visual lighting)
-			// system.checkAliveOfSystem();  TODO: maybe need to delete this method
-		}
+		processLock = true; // lock this process for prevent dublicate performing (it can executes long time)
 		SoundManager.performPlayAction();
-
-		counter = 0;
 		processLock = false;
+		counter = 0;
 	}
 
+	if (counterTicksForLight > (FAST_TIMER_TICKS_IN_1SEC / MAIN_TIMER_TICKS_IN_1SEC))
+	{
+		if (isSetupMode != true)
+		{
+			system.lighting(); // light inly if not setup mode
+			// system.checkAliveOfSystem();  TODO: maybe need to delete this method
+		}
+		counterTicksForLight = 0;
+	}
+
+	counterTicksForLight++;
 	counter++;
 }
 
