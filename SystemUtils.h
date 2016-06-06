@@ -34,7 +34,7 @@
 #define TIME_OUT_ERROR 51
 #define CONNECTION_TIME_OUT 10000 // 10 sec
 
-#define BUILD_TYPES_URL "/guestAuth/app/rest/buildTypes/"
+#define BUILD_TYPES_URL "/guestAuth/app/rest/buildTypes"
 #define BUILD_STATE_URL "/guestAuth/app/rest/buildTypes/id:#/builds/?locator=count:2,running:any"
 #define ID_PLACEHOLDER "#"
 

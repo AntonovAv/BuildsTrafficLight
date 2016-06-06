@@ -76,7 +76,7 @@ boolean WifiModuleUtils::connectTCP()
 	moduleStream->print(F("\","));
 	moduleStream->println(bsParams.port);
 
-	return findModuleResp(F("OK"), 4000);
+	return findModuleResp(F("CONNECT"), 4000) && findModuleResp(F("OK"));
 }
 
 boolean WifiModuleUtils::closeTCP()
@@ -97,13 +97,14 @@ boolean WifiModuleUtils::prepareRequest(String & request)
 
 void WifiModuleUtils::sendRequest(const String & request)
 {
+	clearInputBuffer();
 	moduleStream->print(request);
-	//findModuleResp(F("SEND OK"));
+	//findModuleResp(F("SEND OK")));
 }
 
 boolean WifiModuleUtils::readData(DataReader_ * dataReader, JSONDataParser_ * dataParser)
 {
-	int time = CONNECTION_TIME_OUT; 
+	long time = CONNECTION_TIME_OUT ; 
 
 	boolean breaker = false;
 
