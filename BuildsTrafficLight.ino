@@ -63,8 +63,9 @@ void routineProcess()
 	{
 		processLock = true; // lock this process for prevent dublicate performing (it can executes long time)
 		SoundManager.performPlayAction();
-		processLock = false;
 		counter = 0;
+		SystemUtils.printFreeMemory();
+		processLock = false;
 	}
 
 	if (counterTicksForLight > (FAST_TIMER_TICKS_IN_1SEC / MAIN_TIMER_TICKS_IN_1SEC))

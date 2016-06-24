@@ -151,8 +151,4 @@ void WifiModuleUtils::clearInputBuffer(int timeout)
 {
 	moduleStream->setTimeout(timeout);
 	String trash = moduleStream->readString();
-	if (SystemConfig.isDebugMode())
-	{
-		Serial.println(trash);
-	}
 }

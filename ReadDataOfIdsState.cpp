@@ -41,11 +41,6 @@ void ReadDataOfIdsState::process() {
 
 			if (WifiUtils.prepareRequest(request))
 			{
-				// debug
-				if (SystemConfig.isDebugMode())
-				{
-					Serial.println(F("--req--")); Serial.print(request);
-				}
 				WifiUtils.sendRequest(request);
 
 				respStatus = handleIDStatus();
@@ -93,8 +88,10 @@ void ReadDataOfIdsState::process() {
 			SoundManager.playBadSound();
 			break;
 
-		case FAILED_AND_RUNNING: lightStrategy = new BuildsFailedAndRunningLightStrategy(); break;
-
+		case FAILED_AND_RUNNING: 
+			lightStrategy = new BuildsFailedAndRunningLightStrategy();
+			SoundManager.clearPrevPlayedSoundType();
+			break;
 		}
 
 	}
