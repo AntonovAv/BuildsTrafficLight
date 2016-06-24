@@ -64,7 +64,6 @@ void routineProcess()
 		processLock = true; // lock this process for prevent dublicate performing (it can executes long time)
 		SoundManager.performPlayAction();
 		counter = 0;
-		SystemUtils.printFreeMemory();
 		processLock = false;
 	}
 
