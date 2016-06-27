@@ -25,6 +25,7 @@ public:
 	void playInitSound();
 	void playSoundOnSound();
 	void performPlayAction();
+	void clearPrevPlayedSoundType() { prevSoundType = INIT_SOUND; };
 private:
 	void playSound(const char* sound);
 	byte prevSoundType = INIT_SOUND;
